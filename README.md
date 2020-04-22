@@ -26,9 +26,10 @@ The web application should be styled to be interesting and engaging for a user i
 - The website should have at least six pages/sections: 
 1. one promoting the theme (and explaining how the quiz works) to users 
 2. one displaying available question sets to users; 
-3. one allowing answers to be submitted from users; one displaying results of assessments to users; 
-4. one allowing admins to add remove question sets/users; 
-5. and one allow admins to assess responses.
+3. one allowing answers to be submitted from users; 
+4. one displaying results of assessments to users; 
+5. one allowing admins to add remove question sets/users; 
+6. and one allow admins to assess responses.
 - There must be a consistent style (via css file) for all pages yet each page should be easily identifiable. There should be a navigation element, and a footer element displaying author information.
 
 ### Back end

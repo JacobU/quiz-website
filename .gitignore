@@ -1,4 +1,5 @@
 venv/
 .vscode/
 quiz/__pycache__/
+quiz/app/__pycache__/
 backend/

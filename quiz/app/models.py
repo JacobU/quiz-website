@@ -15,7 +15,7 @@ class Question(db.Model):
     question = db.Column(db.String(128), unique = True)
     category = db.Column(db.String(32), unique = True)
     num_pres = db.Column(db.Integer)
-
+    
     def __repr__(self):
         return '<Question {}>'.format(self.question)
 
@@ -25,7 +25,6 @@ class Answer(db.Model):
 
     def __repr__(self):
         return '<Answer {}>'.format(self.answer)
-
 
 #when assigning answers to questions make sure correct answers are specified
     #potential to cause error of no correct answers

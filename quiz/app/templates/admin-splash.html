@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Administration Panel</h1>
+
+    <h3>Select a sidebar option to continue.</h3>
+    <hr>
+
+    <div class="side_panel">
+        <ul>
+            <!-- Change these to buttons that display relevant form or navigate to new page with correct forms-->
+            <li>User administration <br>
+                <a href="#BLANK">Add user</a>
+                <a href="#BLANK">Delete user</a>
+                <a href="#BLANK">View users</a>
+                <a href="#BLANK">User quiz history</a>
+                <a href= "#BLANK">Add/remove administrator</a>
+            </li>
+            <li>Quiz Administration <br>
+                <a href="#BLANK">Modify quiz categories</a>
+                <a href="#BLANK">Modify questions</a>
+                <a href="#BLANK">Statistical information</a>
+            </li>
+        </ul>
+
+    </div>
+
+{% endblock %}

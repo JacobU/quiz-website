@@ -1,5 +1,5 @@
 from flask import render_template, flash, redirect, url_for
-from app import app
+from app import app, db
 from app.forms import LoginForm, RegisterForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User
@@ -37,8 +37,14 @@ def admin():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    if current_user.is_authenticated: #User already signed in -> shouldn't be able to register an account.
+        return redirect(url_for('index'))
     form=RegisterForm()
     if form.validate_on_submit():
-        flash("Account created for user {}, email= {}".format(form.username.data, form.email.data))
-        return redirect(url_for('index'))
+        user = User (username=form.username.data, email=form.email.data)
+        user.set_password(form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash("Registration Completed!") #FLASH NOT WORKING?!?!?!?!?!
+        return redirect(url_for('login'))
     return(render_template('register.html', form=form))

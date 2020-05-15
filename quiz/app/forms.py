@@ -23,3 +23,15 @@ class RegisterForm(FlaskForm):
         user= User.query.filter_by(username=username.data).first()
         if user != None:
             raise ValidationError("This username is already in use")
+
+class AddUserForm(FlaskForm):
+    username = StringField("Enter a Username", validators=[InputRequired()])
+    password = PasswordField("Enter a Password", validators=[InputRequired(), Length(min=4, message="Passwords must contain at least 4 characters")]) #change to regex
+    password_confirm = PasswordField("Confirm Password", validators=[InputRequired(), EqualTo('password', message="Passwords do not match")])
+    admin = BooleanField("Administrator Permissions")
+    submit=SubmitField("Create User")
+
+    def check_user(self, username):
+        user= User.query.filter_by(username=username.data).first()
+        if user != None:
+            raise ValidationError("This username is already in use")

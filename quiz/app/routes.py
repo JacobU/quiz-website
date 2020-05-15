@@ -1,6 +1,6 @@
 from flask import render_template, flash, redirect, url_for
 from app import app, db
-from app.forms import LoginForm, RegisterForm
+from app.forms import LoginForm, RegisterForm, AddUserForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User
 
@@ -34,6 +34,19 @@ def signout():
 # Redirect to index if not correct user
 def admin():
     return render_template("admin-splash.html")
+
+@app.route('/admin/adduser', methods=['GET', 'POST'])
+@login_required #add protections so only admin can access
+def admin_adduser():
+    form = AddUserForm()
+    if form.validate_on_submit():
+        user = User(username=form.username.data, admin=form.admin.data)
+        user.set_password(form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash("User Created") #flash not working
+        return redirect(url_for('admin'))
+    return(render_template('admin-adduser.html', form=form))
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():

@@ -5,11 +5,6 @@ from app.forms import LoginForm, RegisterForm
 @app.route('/')
 @app.route('/index')
 def index():
-<<<<<<< HEAD
-    return "Hello World"
-
-#test
-=======
     return render_template("index.html")
 
 
@@ -35,4 +30,25 @@ def register():
         flash("Account created for user {}, email= {}".format(form.username.data, form.email.data))
         return redirect(url_for('index'))
     return(render_template('register.html', form=form))
->>>>>>> 62e37b597fcca98deba971da8f83c86392aefb0f
+
+@app.route('/category', methods = ['GET', 'POST'])
+def category()
+    form=CategoryForm()
+    if form.validate_on_submit():
+        result = form.category.data
+        if current_user.is_authenitcated():
+            data = json.dumps({'username': current_user.get_id(), 'category': result})
+            user = User.query.get(int(current_user.get_id()))
+            questions = Question.query.filter_by(category=data.category).order_by(func.random()).limit(10)
+            answers = QuestionAnswer.query.filter_by(questions.get(id) = answers.get(id))
+            questionaire = json.dumps(questions.__dict__, answers.__dict__)
+            return redirect(url_for('quiz'))
+        else:
+            flash("Username is not authenticated")
+    return(render_template('category.html', form=form))
+    
+    
+
+    
+
+        

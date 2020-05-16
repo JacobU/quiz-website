@@ -48,6 +48,13 @@ def admin_adduser():
         return redirect(url_for('admin'))
     return(render_template('admin-adduser.html', form=form))
 
+@app.route('/admin/viewuser')
+@login_required
+def admin_viewusers():
+    Users= User.query.all()
+    return render_template("admin-viewuser.html", Users=Users)
+
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated: #User already signed in -> shouldn't be able to register an account.

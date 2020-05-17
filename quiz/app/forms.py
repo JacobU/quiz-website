@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField
 from wtforms.validators import InputRequired, EqualTo, Email, Length
+from app.models import User
 
 class LoginForm(FlaskForm):
     username = StringField("Username", validators=[InputRequired()])
@@ -14,8 +15,26 @@ class RegisterForm(FlaskForm):
     password = PasswordField("Enter a Password", validators=[InputRequired(), Length(min=4, message="Passwords must contain at least 4 characters ")]) #Change to a regex matching some password policy!
     password_confirm = PasswordField("Confirm Password", validators=[InputRequired(), EqualTo('password', message="Passwords do not match! ")])   
     submit = SubmitField("Register")
+
+    #check if user already exists
+    def check_user(self, username):
+        user= User.query.filter_by(username=username.data).first()
+        if user != None:
+            raise ValidationError("This username is already in use")
+
+class AddUserForm(FlaskForm):
+    username = StringField("Enter a Username", validators=[InputRequired()])
+    password = PasswordField("Enter a Password", validators=[InputRequired(), Length(min=4, message="Passwords must contain at least 4 characters")]) #change to regex
+    password_confirm = PasswordField("Confirm Password", validators=[InputRequired(), EqualTo('password', message="Passwords do not match")])
+    admin = BooleanField("Administrator Permissions")
+    submit=SubmitField("Create User")
+
+    def check_user(self, username):
+        user= User.query.filter_by(username=username.data).first()
+        if user != None:
+            raise ValidationError("This username is already in use")
     
 class CategoryForm(FlaskForm):
     cat_choice = [('Sport', 'Sport'),('Food', 'Food'),('Music', 'Music')]
-    categories = SelectField("Categories", choices = cat_choice)
+    categories = SelectField(u"Categories", choices = cat_choice, validators=[InputRequired()])
     submit=SubmitField('Start Quiz')

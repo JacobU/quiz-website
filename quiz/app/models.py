@@ -1,21 +1,35 @@
-from app import db
+from app import db, login
+from flask_login import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
 
 #initial version of database will store passwords. Store hashes later?
-class User(db.Model):
+class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String(64), index = True, unique = True)
-    password = db.Column(db.String(64))
+    pword_h = db.Column(db.String(128))
     admin = db.Column(db.Boolean, default = False)
+    email = db.Column(db.String(128), index = True)
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
+    #Taken from flask mega tutorial
+    def set_password(self, password):
+        self.pword_h = generate_password_hash(password)
+    def check_password(self, password):
+        return check_password_hash(self.pword_h, password)
+
+#taken from flask mega tutorial
+#finds user record in User table
+@login.user_loader
+def load_user(id):
+    return User.query.get(int(id))
 
 class Question(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     question = db.Column(db.String(128), unique = True)
     category = db.Column(db.String(32), unique = True)
     num_pres = db.Column(db.Integer)
-    
+
     def __repr__(self):
         return '<Question {}>'.format(self.question)
 
@@ -25,6 +39,7 @@ class Answer(db.Model):
 
     def __repr__(self):
         return '<Answer {}>'.format(self.answer)
+
 
 #when assigning answers to questions make sure correct answers are specified
     #potential to cause error of no correct answers

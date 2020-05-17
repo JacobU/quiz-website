@@ -1,12 +1,24 @@
-{% extends 'bootstrap/base.html' %}
 
-<htmL>
+
+<htmL land="en">
     <head>
-        <title>Pub-Quiz</title>
+
+		<title>Pub-Quiz</title>
+			<!--Required Meta Tags-->
+			<meta charset="utf-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1">
+			
+			<!-- Bootstrap, Jquery, AJAX, CSS and JS-->
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+	
+			<!--Fonts-->
+			<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+			
     </head>
     <body>
-        <div class="container-fluid">
-            {% block navbar %}
 			<!--Nav Start-->
 			<nav class="navbar navbar-expand-md bg-dark navbar-dark">
 				<a class="navbar-brand" href="#">Quiz</a>
@@ -21,30 +33,32 @@
 				<div class="collapse navbar-collapse" id="collapsibleNavbar">
 					<ul class="navbar-nav ml-auto">
 						<li class="nav-item">
-							<a class="nav-link" href=" {{ url_for('index') }}">Home</a>
+							<a class="nav-link" href="{{ url_for('index')}}">Home</a>
+						</li>
+						{% if current_user.is_anonymous %}
+						<li class="nav-item">
+							<a class="nav-link" href=" {{ url_for('login') }}"> <i class="fas fa-user-plus"></i> Login</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href=" {{ url_for('login') }}">Login</a>
+							<a class="nav-link" href=" {{ url_for('register') }}"><i class="fas fa-sign-in-alt"></i> Register</a>
+						</li>
+						{% else %}
+						<li class="nav-item">
+							<a class="nav-link" href=#Quiz><i class="fas fa-clipboard"></i> Quizzes</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href=" {{ url_for('register') }}">Register</a>
-						</li>    
+							<a class="nav-link" href= "{{ url_for('signout')}}"><i class="fas fa-sign-out-alt"></i> Sign Out</a>
+						</li>
+						{% endif %}
 					</ul>
 				</div> 
 				<!--Nav Links End-->
 			</nav>
 			<!--Nav End-->
-        {% endblock %}
-        <div>
-            <a href=" {{ url_for('index') }}">Home</a>
-            <a href=" {{ url_for('login') }}">Login</a>
-            <a href=" {{ url_for('register') }}">Register</a>
-        </div>
-        <hr>
-        
+		{% block content %} {% endblock %}
 
-        {% block content %} {% endblock %}
+		<footer class = "page-footer bg-dark">
+			<div class ="footer-copyright text-center text-white py-3">@ 2020 Copyright: (something)</div>
+		</footer>
     </body>
-
-
 </htmL>

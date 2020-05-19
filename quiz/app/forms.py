@@ -34,3 +34,13 @@ class AddUserForm(FlaskForm):
         user= User.query.filter_by(username=username.data).first()
         if user != None:
             raise ValidationError("This username is already in use")
+
+class EditUserForm(FlaskForm):
+    delete = BooleanField("Delete User?")
+    old_username=StringField("Enter user's current username")
+    new_username=StringField("Enter a new username ")
+    email=StringField("Enter a new email")
+    password = PasswordField("Enter a new Password")
+    password_confirm = PasswordField("Confirm Password", validators=[EqualTo("password", message="Passwords do not match")])
+    admin = BooleanField("Keep/Grant Administrator Permissions:")
+    submit=SubmitField("Apply Changes")

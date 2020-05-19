@@ -1,6 +1,6 @@
 from flask import render_template, flash, redirect, url_for
 from app import app, db
-from app.forms import LoginForm, RegisterForm, AddUserForm
+from app.forms import LoginForm, RegisterForm, AddUserForm, EditUserForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User
 
@@ -79,7 +79,7 @@ def admin_adduser():
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        flash("User Created") #flash not working
+        flash("User Succesfully Created!") 
         return redirect(url_for('admin'))
     return(render_template('admin-adduser.html', form=form))
 
@@ -90,4 +90,55 @@ def admin_viewusers():
         return "Access Denied"
     Users= User.query.all()
     return render_template("admin-viewuser.html", Users=Users)
+
+@app.route('/admin/edituser', methods=["GET", "POST"])
+@login_required
+def admin_edituser():
+    if(current_user.is_admin() == False):
+        return "Access Denied"
+    form=EditUserForm()
+
+    if form.validate_on_submit():
+        #Check if user exists in database and can be modified
+        present = User.query.filter_by(username=form.old_username.data).first()
+        if present is None:
+            flash("Error: This user does not exist in the database")
+            return render_template("admin-edit.html", form=form)
+        old_user = form.old_username.data
+        #delete record from database unless it is the admin account or the current user
+        if (form.delete.data) == True:
+            if form.old_username.data == "admin":
+                flash("Error: This user cannot be removed from the database")
+                return render_template("admin-edit.html", form=form)
+            elif current_user.username == old_user:
+                flash("Error: Cannot delete the user currently signed in.")
+                return render_template("admin-edit.html", form=form)
+            else:
+         
+                User.query.filter_by(username=form.old_username.data).delete()
+        #begin editing record
+        if old_user:
+            user=User.query.filter_by(username=form.old_username.data).first()
+        else:
+            flash("Error: No user selected for editing")
+            return render_template("admin-edit.html", form=form)
+        if old_user == "admin":
+            flash("Error: Cannot modify admin!")
+            return render_template("admin-edit.html", form=form)
+        new_user = form.new_username.data
+        if new_user:
+            user.username = form.new_username.data
+        new_password = form.password_confirm.data
+        if new_password:
+            user.set_password(form.password.data)
+        email =  form.email.data
+        if email:
+            user.email=form.email.data
+        admin=form.admin.data
+        if admin:
+            user.admin=form.admin.data  
+        db.session.commit()
+        flash("User succesfully modified")
+        return redirect(url_for('admin'))
+    return(render_template('admin-edit.html', form=form))
 

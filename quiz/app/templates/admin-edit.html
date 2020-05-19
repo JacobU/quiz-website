@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Edit or Delete a User</h1>
+{% with messages = get_flashed_messages() %}
+    {% if messages %}  
+       <ul style="list-style:none;"> 
+       {%for message in messages %}
+           <li style="color:red; align-self: center; font-weight: bold; "> {{ message }}</li>
+       {% endfor %}
+       </ul>
+    {% endif %}
+   {% endwith %}
+<form action="" method="POST" novalidate>
+    {{form.hidden_tag()}}
+    <p>
+        {{form.old_username.label}}
+        {{form.old_username(size=32)}}
+    </p>
+
+    <h2>All fields below are optional.</h2>
+
+    <h3>Edit  User</h3>
+    <p>
+        {{form.new_username.label}}
+        {{form.new_username(size=32)}}
+    </p>
+    <p>
+        {{form.email.label}}
+        {{form.email(size=32)}}
+    </p>
+    <p>
+        {{form.password.label}}
+        {{form.password(size=32)}}
+    </p>
+    <p>
+        {{form.password_confirm.label}}
+        {{form.password_confirm(size=32)}}
+    </p>
+    <p style="font-weight: bold;"> Warning! Will remove a users current admin permissions if not checked!</p>
+    <p>
+        
+        {{form.admin.label}}
+        {{form.admin()}}
+    </p>
+    <h3>Delete User</h3>
+    <p>
+        {{form.delete.label}}
+        {{form.delete()}}
+        </p>
+
+    <p>
+        {{form.submit()}}
+    </p>
+</form>
+<a href="{{ url_for('admin')}} "> Back to admin portal</a>
+{% endblock %}

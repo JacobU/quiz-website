@@ -12,6 +12,8 @@ def index():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    if current_user.is_authenticated: #User already signed in -> shouldn't be able to login again       
+        return redirect(url_for('index'))
     form=LoginForm()
     if form.validate_on_submit():
         user =User.query.filter_by(username=form.username.data).first()
@@ -33,11 +35,15 @@ def signout():
 #NEED TO ADD PROTECTIONS TO THIS URL -> NOT ALLOW ACCESS UNLESS CREDENTIALED LOGIN W/ CORRECT PERMISSIONS
 # Redirect to index if not correct user
 def admin():
+    if (current_user.is_admin() == False):
+        return "Access Denied"
     return render_template("admin-splash.html")
 
 @app.route('/admin/adduser', methods=['GET', 'POST'])
 @login_required #add protections so only admin can access
 def admin_adduser():
+    if (current_user.is_admin() == False):
+        return "Access Denied"      
     form = AddUserForm()
     if form.validate_on_submit():
         user = User(username=form.username.data, admin=form.admin.data)
@@ -51,6 +57,8 @@ def admin_adduser():
 @app.route('/admin/viewuser')
 @login_required
 def admin_viewusers():
+    if (current_user.is_admin() == False):
+        return "Access Denied"
     Users= User.query.all()
     return render_template("admin-viewuser.html", Users=Users)
 

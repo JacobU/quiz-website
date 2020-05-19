@@ -6,12 +6,17 @@
         <div>
             <a href=" {{ url_for('index') }}">Home</a>
             {% if current_user.is_anonymous %}
-            <a href=" {{ url_for('login') }}">Login</a>
-            <a href=" {{ url_for('register') }}">Register</a>
+                <a href=" {{ url_for('login') }}">Login</a>
+                <a href=" {{ url_for('register') }}">Register</a>
             {% else %}
-            <a href=#Quiz>Quizzes</a>
-            <a href= "{{ url_for('signout')}}">Sign Out</a>
+                <a href=#Quiz>Quizzes</a>
+                {% if current_user.is_admin() %}
+                <!-- User is admin. Show admin panel-->
+                    <a href= "{{ url_for('admin') }}">Admin Panel</a>
+                {% endif %}
+                <a href= "{{ url_for('signout')}}">Sign Out</a>  
             {% endif %}
+          
         </div>
         <hr>
         

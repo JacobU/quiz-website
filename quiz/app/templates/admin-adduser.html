@@ -2,6 +2,15 @@
 
 {% block content %}
     <h1>Add a user to the database:</h1>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}  
+       <ul style="list-style:none;"> 
+       {%for message in messages %}
+           <li style="color:red; align-self: center; font-weight: bold; "> {{ message }}</li>
+       {% endfor %}
+       </ul>
+    {% endif %}
+   {% endwith %}
     <form action="" method="POST" novalidate>
         {{form.hidden_tag()}}
         <p>

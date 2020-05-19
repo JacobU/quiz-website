@@ -2,6 +2,15 @@
 
     {% block content %}
     <h1>Register an Account</h1>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}  
+       <ul style="list-style:none;"> 
+       {%for message in messages %}
+           <li style="color:red; align-self: center; font-weight: bold; "> {{ message }}</li>
+       {% endfor %}
+       </ul>
+    {% endif %}
+   {% endwith %}
     <form action= "" method="post" novalidate>
         {{ form.hidden_tag() }}
         <p>

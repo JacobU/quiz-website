@@ -1,8 +1,9 @@
-from flask import render_template, flash, redirect, url_for
+from flask import render_template, flash, redirect, url_for, jsonify, json
 from flask_login import current_user, login_user, logout_user, login_required
 from app import app, db
 from app.forms import LoginForm, RegisterForm, AddUserForm, CategoryForm
-from app.models import User
+from app.models import User, Question
+from sqlalchemy import func
 
 @app.route('/')
 @app.route('/index')
@@ -71,17 +72,22 @@ def register():
 @app.route('/category', methods = ['GET', 'POST'])
 def category():
     form = CategoryForm()
-    if form.validate_on_submit():
+    if form.is_submitted():
+        flash("success!")
         result = form.categories.data
-        if current_user.is_authenitcated():
-            data = json.dumps({'username': current_user.get_id(), 'category': result})
-            user = User.query.get(int(current_user.get_id()))
-            questions = Question.query.filter_by(category=data.category).order_by(func.random()).limit(10)
+        return result
+        if current_user.is_authenticated:
+            user = User.query.filter_by(id=1)
+            q = []
+            for i in range(1,10):
+                quest = Question.query.filter_by(category=result).order_by(func.random()).limit(1)
+                q.append(str(quest.question))
+
+            quest = json.dumps({"username": str(user[0].username),"questions": q})
+            return quest
             #answers = QuestionAnswer.query.filter_by(questions.get_id() = answers.get_id())
-            questionaire = json.dumps(questions.__dict__, answers.__dict__)
-            flash("success!")
-        else:
-            flash("Username is not authenticated")
+            #return(redirect(url('index')))
+
     return(render_template('category.html', form=form))
     
     

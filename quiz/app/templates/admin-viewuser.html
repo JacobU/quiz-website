@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>User information</h1>
+    <h3>All user information (apart from passwords) stored in database is displayed below.</h3>
+    <hr>
+
+    <table>
+        <tr> 
+            <th>User ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Admin Permissions</th>
+        </tr>
+        <!--Loop through database table and display-->
+        <!-- Change to loop through some x number of users per button press??-->
+        {% for user in Users %}
+        <tr>
+            <td>{{user.id}}</td>
+            <td>{{user.username}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.admin}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="{{ url_for('admin')}} "> Back to admin portal</a>
+{% endblock %}
+

@@ -73,9 +73,13 @@ def register():
 def category():
     form = CategoryForm()
     if form.is_submitted():
-        flash("success!")
+        cat_choices = ['Sport','Food','Music']
         result = form.categories.data
-        return result
+        for key in cat_choices:
+            if(result in key):
+                flash(result)
+
+        return(redirect(url_for('index')))
         if current_user.is_authenticated:
             user = User.query.filter_by(id=1)
             q = []
@@ -83,10 +87,9 @@ def category():
                 quest = Question.query.filter_by(category=result).order_by(func.random()).limit(1)
                 q.append(str(quest.question))
 
-            quest = json.dumps({"username": str(user[0].username),"questions": q})
-            return quest
-            #answers = QuestionAnswer.query.filter_by(questions.get_id() = answers.get_id())
-            #return(redirect(url('index')))
+            quest = json.dumps({"username": str(user[0].username),"questions": q}) # <--- not fully done yet.
+            #answers = QuestionAnswer.query.filter_by(questions.get_id() = answers.get_id()) <--- Still needs to be done
+            return(redirect(url_for('index')))
 
     return(render_template('category.html', form=form))
     

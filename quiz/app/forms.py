@@ -35,6 +35,6 @@ class AddUserForm(FlaskForm):
             raise ValidationError("This username is already in use")
     
 class CategoryForm(FlaskForm):
-    cat_choice = [('Sport', 'Sport'),('Food', 'Food'),('Music', 'Music')]
-    categories = SelectField("Categories", choices=cat_choice)
+    cat_choice = [(0,'Choose a category'),('Sport', 'Sport'),('Food', 'Food'),('Music', 'Music')]
+    categories = SelectField("Categories", choices=cat_choice, default=0)
     submit=SubmitField('Start Quiz')

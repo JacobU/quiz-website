@@ -17,6 +17,9 @@ class User(UserMixin, db.Model):
         self.pword_h = generate_password_hash(password)
     def check_password(self, password):
         return check_password_hash(self.pword_h, password)
+    #check if a user has administrator priv
+    def is_admin(self):
+        return (self.admin == True)
 
 #taken from flask mega tutorial
 #finds user record in User table

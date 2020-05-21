@@ -12,13 +12,12 @@
             <th>Admin Permissions</th>
         </tr>
         <!--Loop through database table and display-->
-        <!-- Change to loop through some x number of users per button press??-->
         {% for user in Users %}
         <tr>
-            <td>{{user.id}}</td>
-            <td>{{user.username}}</td>
-            <td>{{user.email}}</td>
-            <td>{{user.admin}}</td>
+            <td class="id">{{user.id}}</td>
+            <td class="username">{{user.username}}</td>
+            <td class="email">{{user.email}}</td>
+            <td class="admin">{{user.admin}}</td>
         </tr>
         {% endfor %}
     </table>

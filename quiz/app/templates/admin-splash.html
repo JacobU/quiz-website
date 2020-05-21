@@ -2,16 +2,24 @@
 
 {% block content %}
     <h1>Administration Panel</h1>
-
     <h3>Select a sidebar option to continue.</h3>
     <hr>
 
+{% with messages = get_flashed_messages() %}
+{% if messages %}  
+   <ul style="list-style:none;"> 
+   {%for message in messages %}
+       <li style="color:green ;align-self: center; font-weight: bold; "> {{ message }}</li>
+   {% endfor %}
+   </ul>
+{% endif %}
+{% endwith %}
     <div class="side_panel">
         <ul>
             <!-- Change these to buttons that display relevant form or navigate to new page with correct forms-->
             <li>User administration <br>
                 <a href="{{ url_for('admin_adduser') }}">Add users</a>
-                <a href="#BLANK">Modify/Delete a user</a>
+                <a href="{{ url_for('admin_edituser') }}">Modify/Delete a user</a>
                 <a href="{{ url_for('admin_viewusers') }}">View users</a>
                 <a href="#BLANK">User quiz history</a>
             </li>
@@ -23,5 +31,6 @@
         </ul>
 
     </div>
+
 
 {% endblock %}

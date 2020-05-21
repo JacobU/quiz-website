@@ -5,7 +5,7 @@ from app.models import User
 
 class LoginForm(FlaskForm):
     username = StringField("Username", validators=[InputRequired()])
-    password = PasswordField("Password", validators=[InputRequired()])
+    password = PasswordField("Password", validators=[InputRequired(), Length(min=1, message="Please enter a password!")])
     remember_me = BooleanField("Remember Me")
     submit = SubmitField("Sign In")
 
@@ -15,7 +15,6 @@ class RegisterForm(FlaskForm):
     password = PasswordField("Enter a Password", validators=[InputRequired(), Length(min=4, message="Passwords must contain at least 4 characters ")]) #Change to a regex matching some password policy!
     password_confirm = PasswordField("Confirm Password", validators=[InputRequired(), EqualTo('password', message="Passwords do not match! ")])   
     submit = SubmitField("Register")
-
     #check if user already exists
     def check_user(self, username):
         user= User.query.filter_by(username=username.data).first()
@@ -33,7 +32,17 @@ class AddUserForm(FlaskForm):
         user= User.query.filter_by(username=username.data).first()
         if user != None:
             raise ValidationError("This username is already in use")
-    
+
+class EditUserForm(FlaskForm):
+    delete = BooleanField("Delete User?")
+    old_username=StringField("Enter user's current username")
+    new_username=StringField("Enter a new username ")
+    email=StringField("Enter a new email")
+    password = PasswordField("Enter a new Password")
+    password_confirm = PasswordField("Confirm Password", validators=[EqualTo("password", message="Passwords do not match")])
+    admin = BooleanField("Keep/Grant Administrator Permissions:")
+    submit=SubmitField("Apply Changes")
+
 class CategoryForm(FlaskForm):
     cat_choice = [(0,'Choose a category'),('Sport', 'Sport'),('Food', 'Food'),('Music', 'Music')]
     categories = SelectField("Categories", choices=cat_choice, default=0)

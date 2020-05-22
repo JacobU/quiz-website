@@ -21,17 +21,46 @@
             </div>
             <div class="col-sm-10">
                 <div class="question-pad">
-                    <div class="question-number">{{ qn }}</div>
+                    <div class="question-number" id="question-number">{{ questions[0].qid }}</div>
 
-                    <div class="question-text">{{ q1 }}</div>
+                    <div class="question-text" id="question">{{ questions[0].question }}</div>
                     <div class="options">
-                        <div class="option">{{ q1a1 }}</div>
-                        <div class="option">{{ q1a2 }}</div>
-                        <div class="option">{{ q1a3 }}</div>
-                        <div class="option">{{ q1a4 }}</div>
+                        <div class="option" id="one">{{ questions[0].answers[0].ans }}</div>
+                        <div class="option" id="two">{{ questions[0].answers[1].ans }}</div>
+                        <div class="option" id="three">{{ questions[0].answers[2].ans }}</div>
+                        <div class="option" id="four">{{ questions[0].answers[3].ans }}</div>
                     </div>        
+                    <div class="quiz-nav">
+                        <button id="previous" onclick="previousQuestion()">Previous</button>
+                        <button id="next" onclick="nextQuestion()">Next</button>
+                    </div> 
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        function previousQuestion() {
+            currentQuestion = parseInt(document.getElementById("question-number").innerHTML);
+            currentQuestion = currentQuestion - 1;
+            document.getElementById("question-number").innerHTML = currentQuestion;
+        }
+
+        function nextQuestion() {
+
+            currentQuestion = parseInt(document.getElementById("question-number").innerHTML);
+            if(currentQuestion < 3) {
+                currentQuestion = currentQuestion + 1;
+                document.getElementById("question-number").innerHTML = currentQuestion;
+
+                // jsQuestions = "{{ questions|tojson }}";
+                // questions = jsQuestions[0];
+                // document.getElementById("question").innerHTML = questions[currentQuestion - 1].question; 
+                // // document.getElementById("question").innerHTML = "{{ questions[1].question }}"
+            }
+            
+
+        }
+
+    </script>
     {% endblock %}

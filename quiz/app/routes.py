@@ -1,8 +1,9 @@
-from flask import render_template, flash, redirect, url_for, request, jsonify
+from flask import render_template, flash, redirect, url_for, request, jsonify, json
 from app import app, db
 from app.forms import LoginForm, RegisterForm, AddUserForm, EditUserForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User
+import os
 
 @app.route('/')
 @app.route('/index')
@@ -144,41 +145,27 @@ def admin_edituser():
 
 @app.route('/quiz', methods=['GET', 'POST'])
 def quiz():
-        # Get the JSON from the server...
-    quizQuestions = request.json['questions']
-    q1 = quizQuestions[0]
-    qn = 1
-    # Get question
-    q1quest = q1['question']
     
-    # Get answers and num of times chosen
-    q1answers = q1['answers']
-    q1ans1 = q1answers[0]['ans']
-    q1ans2 = q1answers[1]['ans']
-    q1ans3 = q1answers[2]['ans']
-    q1ans4 = q1answers[3]['ans']
-
-    # Get correct answer
-    q1corr = q1['correct']
+    # Get the JSON from the server...
+    # quizQuestions = request.json['questions']
     
-    return render_template( "quiz.html", 
-                            title="Quiz", 
-                            qn = qn,
-                            q1 = q1quest, 
-                            q1a1 = q1ans1, 
-                            q1a2 = q1ans2, 
-                            q1a3 = q1ans3, 
-                            q1a4 = q1ans4)
+    filename = os.path.join(app.static_folder, 'question.json')
+    with open(filename) as jsonfile:
+        rawdata = json.load(jsonfile)
+        data = rawdata['questions']
+    return render_template("quiz.html", title="Quiz", questions=data)
+    
+    # return render_template("quiz.html", title="Quiz")
 
 
-@app.route('/quiz/<int:question_num>', methods=['GET', 'POST'])
-def quizQuestions(question_num):
+# @app.route('/quiz/<int:question_num>', methods=['GET', 'POST'])
+# def quizQuestions(question_num):
 
-    if form.validate_on_submit():
-        if "submit_button" in request.form:
-        # newQuestion = question_num + 1
-            return redirect('quiz/2')
-    return render_template("test.html", number = question_num)
+#     if form.validate_on_submit():
+#         if "submit_button" in request.form:
+#         # newQuestion = question_num + 1
+#             return redirect('quiz/2')
+#     return render_template("test.html", number = question_num)
     
 
                             

@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for
+from flask import render_template, flash, redirect, url_for, request, jsonify
 from app import app, db
 from app.forms import LoginForm, RegisterForm, AddUserForm, EditUserForm
 from flask_login import current_user, login_user, logout_user, login_required
@@ -142,3 +142,43 @@ def admin_edituser():
         return redirect(url_for('admin'))
     return(render_template('admin-edit.html', form=form))
 
+@app.route('/quiz', methods=['GET', 'POST'])
+def quiz():
+        # Get the JSON from the server...
+    quizQuestions = request.json['questions']
+    q1 = quizQuestions[0]
+    qn = 1
+    # Get question
+    q1quest = q1['question']
+    
+    # Get answers and num of times chosen
+    q1answers = q1['answers']
+    q1ans1 = q1answers[0]['ans']
+    q1ans2 = q1answers[1]['ans']
+    q1ans3 = q1answers[2]['ans']
+    q1ans4 = q1answers[3]['ans']
+
+    # Get correct answer
+    q1corr = q1['correct']
+    
+    return render_template( "quiz.html", 
+                            title="Quiz", 
+                            qn = qn,
+                            q1 = q1quest, 
+                            q1a1 = q1ans1, 
+                            q1a2 = q1ans2, 
+                            q1a3 = q1ans3, 
+                            q1a4 = q1ans4)
+
+
+@app.route('/quiz/<int:question_num>', methods=['GET', 'POST'])
+def quizQuestions(question_num):
+
+    if form.validate_on_submit():
+        if "submit_button" in request.form:
+        # newQuestion = question_num + 1
+            return redirect('quiz/2')
+    return render_template("test.html", number = question_num)
+    
+
+                            

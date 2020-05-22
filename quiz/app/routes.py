@@ -142,11 +142,6 @@ def admin_edituser():
         return redirect(url_for('admin'))
     return(render_template('admin-edit.html', form=form))
 
-<<<<<< HEAD
-        flash("Registration Completed!") #FLASH NOT WORKING?!?!?!?!?!
-        return redirect(url_for('login'))
-    return(render_template('register.html', form=form))
-
 @app.route('/category', methods = ['GET', 'POST'])
 def category():
     form = CategoryForm()

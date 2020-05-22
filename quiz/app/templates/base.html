@@ -45,6 +45,11 @@
 							<a class="nav-link" href=" {{ url_for('register') }}"><i class="fas fa-sign-in-alt"></i> Register</a>
 						</li>
 						{% else %}
+							{% if current_user.is_admin() %}
+							<li class="nav-item">
+								<a class="nav-link" href=" {{ url_for('admin') }}"><i class="fas fa-user-shield"></i> Admin</a>
+							</li>
+							{% endif %}
 						<li class="nav-item">
 							<a class="nav-link" href=#Quiz><i class="fas fa-clipboard"></i> Quizzes</a>
 						</li>

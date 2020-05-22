@@ -7,6 +7,7 @@ h3 {
 }
 
 .quiz-bg{
-  background: red;
+  background-image: url("{{ url_for('static', filename='iamges/quizBackground') }}") !important;
 }
+
 

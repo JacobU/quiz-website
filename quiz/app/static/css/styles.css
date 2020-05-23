@@ -1,0 +1,91 @@
+body {
+    width: 100%;
+    font-family: 'Manrope', sans-serif;
+}
+
+/*=-------------------=*/
+/*=     SIDEBAR       =*/
+/*=-------------------=*/
+
+.col-sm-2 {
+    background-color: grey;
+    border-radius: 2em;
+    color: black;
+    text-align: center;
+    color: white;
+}
+
+.col-sm-2 > ul {
+    padding: 1em 0 0 0;
+
+}
+
+.col-sm-2 > ul > li:hover {
+    color: lightblue;
+}
+
+.question-index {
+    list-style: none;
+    font-size: 1.5em;
+}
+.question-index > li {
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+/*=-------------------=*/
+/*=   QUESTION BODY   =*/
+/*=-------------------=*/
+
+.col-sm-10 {
+    background-color: aliceblue;
+    border-radius: 2em;
+    /* height: 800px; */
+}
+
+.question-pad {
+    display: inline-block;
+    border-radius: 2em;
+    background-color: grey;
+    margin: 3em 2em 2em 4em;
+    height: 90%;
+    width: 80%;
+}
+
+.question-number {
+    font-size: 2em;
+    border-style: double;
+    border-color: white;
+    margin: 2em;
+    padding: 0.4em 0.8em 0.4em 0.8em;
+    color: white;
+    float: left;
+}
+
+.question-text {
+    font-size: 2.5em;
+    margin: 1.5em;
+    color: white;
+}
+
+/*=-------------------=*/
+/*=      OPTIONS      =*/
+/*=-------------------=*/
+.options {
+    color: white;
+    font-size: 1.5em;
+    padding-left: 8em;
+    width: 70%;
+    padding-bottom: 2em;
+}
+
+.option {
+    background-color: lightgray;
+    padding: 1.5em;
+    border-radius: 1em;
+    margin: 1em;
+}
+
+.option:hover {
+    background-color: lightblue;
+}

@@ -1,9 +1,10 @@
 from flask import render_template, flash, redirect, url_for, jsonify, json
-from flask_login import current_user, login_user, logout_user, login_required
+from flask_login import current_user, login_user, logout_user, login_required, request
 from app import app, db
 from app.forms import LoginForm, RegisterForm, AddUserForm, EditUserForm, CategoryForm
 from app.models import User, Question
 from sqlalchemy import func
+import os
 
 @app.route('/')
 @app.route('/index')
@@ -165,3 +166,43 @@ def category():
             return(redirect(url_for('index')))
 
     return(render_template('category.html', form=form))
+    
+@app.route('/quiz', methods=['GET', 'POST'])
+def quiz():
+    
+    # Get the JSON from the server...
+    # quizQuestions = request.json['questions']
+    
+    # THIS IS JUST USED TO LOAD A TEST JSON
+    filename = os.path.join(app.static_folder, 'question.json')
+    with open(filename) as jsonfile:
+        rawdata = json.load(jsonfile)
+        data = rawdata['questions']
+
+    # REPLACE ABOVE WITH A DATABASE CALL
+
+        q1 = data[0]
+        q2 = data[1]
+        q3 = data[2]
+        q4 = data[3]
+        q5 = data[4]
+        q6 = data[5]
+        q7 = data[6]
+        q8 = data[7]
+        q9 = data[8]
+        q10 = data[9]
+
+    return render_template("quiz.html", title="Quiz",   questions=data,
+                                                        q1=q1,
+                                                        q2=q2,
+                                                        q3=q3,
+                                                        q4=q4,
+                                                        q5=q5,
+                                                        q6=q6,
+                                                        q7=q7,
+                                                        q8=q8,
+                                                        q9=q9,
+                                                        q10=q10)
+    
+
+                            

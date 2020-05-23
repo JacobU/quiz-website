@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Add a question set to the database</h1>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}  
+       <ul style="list-style:none;"> 
+       {%for message in messages %}
+           <li style="color:red; align-self: center; font-weight: bold; "> {{ message }}</li>
+       {% endfor %}
+       </ul>
+    {% endif %}
+   {% endwith %}
+    <form action="" method = "POST" novalidate>
+        {{form.hidden_tag()}}
+        <h3>Enter an existing category for the question set or add a new one:</h3>
+        <p>
+            {{form.existing_category.label}}
+            {{form.existing_category(size=32)}}
+        </p>
+        <h4>Or</h4>
+        <p>
+            {{form.new_category.label}}
+            {{form.new_category(size=32)}}
+        </p>
+        <h3>Enter the question set for the desired category: </h3>
+        <p>
+            {{form.question.label}}
+            {{form.question(size=32)}}
+        </p>
+        <p>
+            {{form.answer.label}}
+            {{form.answer(size=32)}}
+        </p>
+        <p>
+            {{form.fake_ans1.label}}
+            {{form.fake_ans1(size=32)}}
+        </p>
+        <p>
+            {{form.fake_ans2.label}}
+            {{form.fake_ans2(size=32)}}
+        </p>
+        <p>
+            {{form.fake_ans3.label}}
+            {{form.fake_ans3(size=32)}}
+        </p>
+        <p>
+           {{form.submit()}} 
+        </p>
+    </form>
+    <a href="{{ url_for('admin')}} "> Back to admin portal</a>
+{% endblock %}

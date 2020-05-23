@@ -1,8 +1,8 @@
 from flask import render_template, flash, redirect, url_for, jsonify, json
 from flask_login import current_user, login_user, logout_user, login_required
 from app import app, db
-from app.forms import LoginForm, RegisterForm, AddUserForm, EditUserForm, CategoryForm
-from app.models import User, Question
+from app.forms import LoginForm, RegisterForm, AddUserForm, EditUserForm, CategoryForm, AddQuestionSetForm
+from app.models import User, Question, Answer, QuestionAnswer
 from sqlalchemy import func
 
 @app.route('/')
@@ -10,7 +10,7 @@ from sqlalchemy import func
 def index():
     return render_template("index.html")
 
-
+ # user login/registration content 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated: #User already signed in -> shouldn't be able to login again       
@@ -51,12 +51,11 @@ def register():
 def signout():
     logout_user()
     return redirect(url_for('index'))
-
+# end user login/register content
+# Admin content
 
 @app.route('/admin')
 @login_required
-#NEED TO ADD PROTECTIONS TO THIS URL -> NOT ALLOW ACCESS UNLESS CREDENTIALED LOGIN W/ CORRECT PERMISSIONS
-# Redirect to index if not correct user
 def admin():
     if (current_user.is_admin() == False):
         return "Access Denied"
@@ -142,6 +141,16 @@ def admin_edituser():
         return redirect(url_for('admin'))
     return(render_template('admin-edit.html', form=form))
 
+@app.route('/admin/addquestionset', methods=["GET", "POST"])
+@login_required
+def admin_addset():
+    if(current_user.is_admin() == False):
+        return "Access Denied"
+    form=AddQuestionSetForm()
+    return(render_template("admin-addset.html", form=form))
+
+
+#quiz content
 @app.route('/category', methods = ['GET', 'POST'])
 def category():
     form = CategoryForm()

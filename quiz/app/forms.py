@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, RadioField
 from wtforms.validators import InputRequired, EqualTo, Email, Length
 from app.models import User
 
@@ -44,6 +44,5 @@ class EditUserForm(FlaskForm):
     submit=SubmitField("Apply Changes")
 
 class CategoryForm(FlaskForm):
-    cat_choice = [(0,'Choose a category'),('Sport', 'Sport'),('Food', 'Food'),('Music', 'Music')]
-    categories = SelectField("Categories", choices=cat_choice, default=0)
+    categories = RadioField("Categories")
     submit=SubmitField('Start Quiz')

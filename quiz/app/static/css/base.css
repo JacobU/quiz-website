@@ -1,0 +1,20 @@
+.container-fluid{
+    height: 100vh;
+    background-image: url('/static/images/quizBackground.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+   
+}
+
+h1,h2{
+    text-align: center;
+}
+
+.index-home{
+    background-color: grey;
+    height: 50vh;
+    margin-top: 5%;
+}
+
+
+

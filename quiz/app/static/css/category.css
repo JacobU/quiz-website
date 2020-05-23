@@ -1,13 +1,16 @@
-p {
-    text-align: center;
-}
-h3 {
-    text-align: center;
-    color: cyan;
+h3{
+   margin-top: 5%;
+   color: white;
+   Font-family: Noto Sans, sans-serif;
 }
 
-.quiz-bg{
-  background-image: url("{{ url_for('static', filename='iamges/quizBackground') }}") !important;
+.cat-form {
+    background-color: grey;
+    margin-top: 10%;
+    height: 50vh;
+    border-radius: 10%;
 }
 
+.start-quiz:hover {
 
+}

@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for, jsonify, json
+from flask import render_template, flash, redirect, url_for, jsonify, json, request
 from flask_login import current_user, login_user, logout_user, login_required
 from app import app, db
 from app.forms import LoginForm, RegisterForm, AddUserForm, EditUserForm, CategoryForm
@@ -9,7 +9,6 @@ from sqlalchemy import func
 @app.route('/index')
 def index():
     return render_template("index.html")
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -144,18 +143,18 @@ def admin_edituser():
 
 @app.route('/category', methods = ['GET', 'POST'])
 def category():
+    cat = [('Sport','Sport'), ('Music','Music'), ('Food','Food')]
     form = CategoryForm()
-    if form.is_submitted():
-        cat_choices = ['Sport','Food','Music']
-        result = form.categories.data
-        for key in cat_choices:
-            if(result in key):
-                flash(result)
+    form.categories.choices = cat
+    result = form.categories.data
 
-        return(redirect(url_for('index')))
+    if form.is_submitted():
+        flash(result)
+        sleep(10)
         if current_user.is_authenticated:
             user = User.query.filter_by(id=1)
             q = []
+            a = []
             for i in range(1,10):
                 quest = Question.query.filter_by(category=result).order_by(func.random()).limit(1)
                 q.append(str(quest.question))

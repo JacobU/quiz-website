@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+
+    {% block content %}
+    <div class="question">
+        <div class="row">
+            <div class="col-sm-2">
+
+                <ul class="question-index">
+                    <li>Question No.1</li>
+                    <li>Question No.2</li>
+                    <li>Question No.3</li>
+                    <li>Question No.4</li>
+                    <li>Question No.5</li>
+                    <li>Question No.6</li>
+                    <li>Question No.7</li>
+                    <li>Question No.8</li>
+                    <li>Question No.9</li>
+                    <li>Question No.10</li>
+                </ul>
+
+            </div>
+            <div class="col-sm-10">
+                <div class="question-pad">
+                    <div class="question-number" id="question-number">{{ questions[0].qid }}</div>
+
+                    <div class="question-text" id="question">{{ questions[0].question }}</div>
+                    <div class="options">
+                        <div class="option" class="option" id="one">{{ questions[0].answers[0].ans }}</div>
+                        <div class="option" class="option" id="two">{{ questions[0].answers[1].ans }}</div>
+                        <div class="option" class="option" id="three">{{ questions[0].answers[2].ans }}</div>
+                        <div class="option" class="option" id="four">{{ questions[0].answers[3].ans }}</div>
+                    </div>        
+                    <div class="quiz-nav">
+                        <!-- <button id="next" onclick="nextQuestion()">Next</button> -->
+                        <!-- <button id="decrement" onclick="decrement()">Decrement</button>
+                        <button id="increment" onclick="increment()">Increment</button> -->
+                        <div style="display: inline;">Score: </div>
+                        <div id="count" style="display: inline;"></div>
+                        <div style="display: inline;">/10</div>
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.onload = startCount();
+
+        // var answersCorrect = 0;
+
+        function startCount() {
+            // count = parseInt(document.getElementById("count").innerHTML);
+            // document.getElementById("count").innerHTML = count + 1;
+            window.answersCorrect = 0;
+            document.getElementById("count").innerHTML = parseInt(window.answersCorrect);
+        }
+
+        function increment() {
+            window.answersCorrect = parseInt(window.answersCorrect) + 1;
+            document.getElementById("count").innerHTML = parseInt(window.answersCorrect);
+        }
+
+        function decrement() {
+            window.answersCorrect = parseInt(window.answersCorrect) - 1;
+            document.getElementById("count").innerHTML = parseInt(window.answersCorrect);
+        }
+
+        $(function(){
+
+            $(document).on("click",".option", function (){
+                currentQuestion = parseInt(document.getElementById("question-number").innerHTML);
+                
+                console.log($(this).html())
+                switch(currentQuestion) {
+                    case 1:
+                        if( "{{ q1.correct }}" ==  $(this).html()) {
+                            increment();
+                        }
+                        break;
+                    case 2:
+                    if( "{{ q2.correct }}" ==  $(this).html()) {
+                            increment();
+                        }
+                        break;
+                    case 3:
+                    if( "{{ q3.correct }}" ==  $(this).html()) {
+                            increment();
+                        } 
+                        break;
+                    case 4:
+                        if( "{{ q4.correct }}" ==  $(this).html()) {
+                            increment();
+                        }
+                        break;
+                    case 5:
+                        if( "{{ q5.correct }}" ==  $(this).html()) {
+                            increment();
+                        }
+                        break;
+                    case 6:
+                        if( "{{ q6.correct }}" ==  $(this).html()) {
+                            increment();
+                        }
+                        break;
+                    case 7:
+                        if( "{{ q7.correct }}" ==  $(this).html()) {
+                            increment();
+                        }
+                        break;
+                    case 8:
+                        if( "{{ q8.correct }}" ==  $(this).html()) {
+                            increment();
+                        }
+                        break;
+                    case 9:
+                        if( "{{ q9.correct }}" ==  $(this).html()) {
+                            increment();
+                        }
+                        break;
+                    case 10:
+                        if( "{{ q10.correct }}" ==  $(this).html()) {
+                            increment();
+                        }
+                        break;
+                }
+
+                nextQuestion();
+            });
+        
+
+        }); 
+        
+        function nextQuestion() {
+
+            currentQuestion = parseInt(document.getElementById("question-number").innerHTML);
+            if(currentQuestion < 10) {
+                currentQuestion = currentQuestion + 1;
+                document.getElementById("question-number").innerHTML = currentQuestion;
+                
+
+                // OK yes, I know this is a massive HACK but all the other ways were fucking me up
+                switch(currentQuestion) {
+                    case 1:
+                        document.getElementById("question").innerHTML = "{{ q1.question }}";
+                        document.getElementById("one").innerHTML = "{{ q1.answers[0].ans }}";
+                        document.getElementById("two").innerHTML = "{{ q1.answers[1].ans }}";
+                        document.getElementById("three").innerHTML = "{{ q1.answers[2].ans }}";
+                        document.getElementById("four").innerHTML = "{{ q1.answers[3].ans }}";
+                        break;
+                    case 2:
+                        document.getElementById("question").innerHTML = "{{ q2.question }}";
+                        document.getElementById("one").innerHTML = "{{ q2.answers[0].ans }}";
+                        document.getElementById("two").innerHTML = "{{ q2.answers[1].ans }}";
+                        document.getElementById("three").innerHTML = "{{ q2.answers[2].ans }}";
+                        document.getElementById("four").innerHTML = "{{ q2.answers[3].ans }}";
+                        break;
+                    case 3:
+                        document.getElementById("question").innerHTML = "{{ q3.question }}";
+                        document.getElementById("one").innerHTML = "{{ q3.answers[0].ans }}";
+                        document.getElementById("two").innerHTML = "{{ q3.answers[1].ans }}";
+                        document.getElementById("three").innerHTML = "{{ q3.answers[2].ans }}";
+                        document.getElementById("four").innerHTML = "{{ q3.answers[3].ans }}";
+                        break;
+                    case 4:
+                        document.getElementById("question").innerHTML = "{{ q4.question }}";
+                        document.getElementById("one").innerHTML = "{{ q4.answers[0].ans }}";
+                        document.getElementById("two").innerHTML = "{{ q4.answers[1].ans }}";
+                        document.getElementById("three").innerHTML = "{{ q4.answers[2].ans }}";
+                        document.getElementById("four").innerHTML = "{{ q4.answers[3].ans }}";
+                        break;
+                    case 5:
+                        document.getElementById("question").innerHTML = "{{ q5.question }}";
+                        document.getElementById("one").innerHTML = "{{ q5.answers[0].ans }}";
+                        document.getElementById("two").innerHTML = "{{ q5.answers[1].ans }}";
+                        document.getElementById("three").innerHTML = "{{ q5.answers[2].ans }}";
+                        document.getElementById("four").innerHTML = "{{ q5.answers[3].ans }}";
+                        break;
+                    case 6:
+                        document.getElementById("question").innerHTML = "{{ q6.question }}";
+                        document.getElementById("one").innerHTML = "{{ q6.answers[0].ans }}";
+                        document.getElementById("two").innerHTML = "{{ q6.answers[1].ans }}";
+                        document.getElementById("three").innerHTML = "{{ q6.answers[2].ans }}";
+                        document.getElementById("four").innerHTML = "{{ q6.answers[3].ans }}";
+                        break;
+                    case 7:
+                        document.getElementById("question").innerHTML = "{{ q7.question }}";
+                        document.getElementById("one").innerHTML = "{{ q7.answers[0].ans }}";
+                        document.getElementById("two").innerHTML = "{{ q7.answers[1].ans }}";
+                        document.getElementById("three").innerHTML = "{{ q7.answers[2].ans }}";
+                        document.getElementById("four").innerHTML = "{{ q7.answers[3].ans }}";
+                        break;
+                    case 8:
+                        document.getElementById("question").innerHTML = "{{ q8.question }}";
+                        document.getElementById("one").innerHTML = "{{ q8.answers[0].ans }}";
+                        document.getElementById("two").innerHTML = "{{ q8.answers[1].ans }}";
+                        document.getElementById("three").innerHTML = "{{ q8.answers[2].ans }}";
+                        document.getElementById("four").innerHTML = "{{ q8.answers[3].ans }}";
+                        break;
+                    case 9:
+                        document.getElementById("question").innerHTML = "{{ q9.question }}";
+                        document.getElementById("one").innerHTML = "{{ q9.answers[0].ans }}";
+                        document.getElementById("two").innerHTML = "{{ q9.answers[1].ans }}";
+                        document.getElementById("three").innerHTML = "{{ q9.answers[2].ans }}";
+                        document.getElementById("four").innerHTML = "{{ q9.answers[3].ans }}";
+                        break;
+                    case 10:
+                        document.getElementById("question").innerHTML = "{{ q10.question }}";
+                        document.getElementById("one").innerHTML = "{{ q10.answers[0].ans }}";
+                        document.getElementById("two").innerHTML = "{{ q10.answers[1].ans }}";
+                        document.getElementById("three").innerHTML = "{{ q10.answers[2].ans }}";
+                        document.getElementById("four").innerHTML = "{{ q10.answers[3].ans }}";
+                        break;
+                }
+            }
+        }
+
+    </script>
+    {% endblock %}

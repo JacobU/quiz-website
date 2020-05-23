@@ -1,8 +1,9 @@
-from flask import render_template, flash, redirect, url_for
-from app import app, db
-from app.forms import LoginForm, RegisterForm, AddUserForm, EditUserForm
+from flask import render_template, flash, redirect, url_for, jsonify, json
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User
+from app import app, db
+from app.forms import LoginForm, RegisterForm, AddUserForm, EditUserForm, CategoryForm
+from app.models import User, Question
+from sqlalchemy import func
 
 @app.route('/')
 @app.route('/index')
@@ -62,7 +63,7 @@ def admin():
     return render_template("admin-splash.html")
 
 @app.route('/admin/adduser', methods=['GET', 'POST'])
-@login_required #add protections so only admin can access
+@login_required
 def admin_adduser():
     if (current_user.is_admin() == False):
         return "Access Denied"      
@@ -97,7 +98,6 @@ def admin_edituser():
     if(current_user.is_admin() == False):
         return "Access Denied"
     form=EditUserForm()
-
     if form.validate_on_submit():
         #Check if user exists in database and can be modified
         present = User.query.filter_by(username=form.old_username.data).first()
@@ -142,3 +142,26 @@ def admin_edituser():
         return redirect(url_for('admin'))
     return(render_template('admin-edit.html', form=form))
 
+@app.route('/category', methods = ['GET', 'POST'])
+def category():
+    form = CategoryForm()
+    if form.is_submitted():
+        cat_choices = ['Sport','Food','Music']
+        result = form.categories.data
+        for key in cat_choices:
+            if(result in key):
+                flash(result)
+
+        return(redirect(url_for('index')))
+        if current_user.is_authenticated:
+            user = User.query.filter_by(id=1)
+            q = []
+            for i in range(1,10):
+                quest = Question.query.filter_by(category=result).order_by(func.random()).limit(1)
+                q.append(str(quest.question))
+
+            quest = json.dumps({"username": str(user[0].username),"questions": q}) # <--- not fully done yet.
+            #answers = QuestionAnswer.query.filter_by(questions.get_id() = answers.get_id()) <--- Still needs to be done
+            return(redirect(url_for('index')))
+
+    return(render_template('category.html', form=form))

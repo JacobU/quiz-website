@@ -1,9 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField
 from wtforms.validators import InputRequired, EqualTo, Email, Length
 from app.models import User
-
-
 
 class LoginForm(FlaskForm):
     username = StringField("Username", validators=[InputRequired()])
@@ -44,3 +42,8 @@ class EditUserForm(FlaskForm):
     password_confirm = PasswordField("Confirm Password", validators=[EqualTo("password", message="Passwords do not match")])
     admin = BooleanField("Keep/Grant Administrator Permissions:")
     submit=SubmitField("Apply Changes")
+
+class CategoryForm(FlaskForm):
+    cat_choice = [(0,'Choose a category'),('Sport', 'Sport'),('Food', 'Food'),('Music', 'Music')]
+    categories = SelectField("Categories", choices=cat_choice, default=0)
+    submit=SubmitField('Start Quiz')

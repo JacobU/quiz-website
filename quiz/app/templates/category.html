@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class = "jumbotron quiz-bg">
+    <div class = "row justify-content-center">
+        <div class = "col-lg-6">
+            <h3 class="text-center mb-4">Choose Your Category!</h3>
+            <form action= "" method="post" class="text-center" novalidate>
+                    {{ form.hidden_tag()}}
+                <p>
+                    {{ form.categories() }}
+                </p>
+                <div class = "row justify-content-center">
+                    <button type="submit" name = "submit" class="btn btn-primary mx-auto" onclick="cat()">Start Quiz</button>
+                </div> 
+                <div class = "row justify-content-center mt-2">
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                <p> You have chosen <b>{{ message }}</b> Do you wish to continue?</p>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

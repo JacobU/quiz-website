@@ -1,0 +1,13 @@
+p {
+    text-align: center;
+}
+h3 {
+    text-align: center;
+    color: cyan;
+}
+
+.quiz-bg{
+  background-image: url("{{ url_for('static', filename='iamges/quizBackground') }}") !important;
+}
+
+

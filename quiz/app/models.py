@@ -30,7 +30,7 @@ def load_user(id):
 class Question(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     question = db.Column(db.String(128), unique = True)
-    category = db.Column(db.String(32), unique = True)
+    category = db.Column(db.String(32))
     num_pres = db.Column(db.Integer)
 
     def __repr__(self):

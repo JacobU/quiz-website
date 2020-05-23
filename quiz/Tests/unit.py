@@ -6,7 +6,10 @@ class UserModelTest(unittest.TestCase):
 
     def setUp(self):
         self.app = app
-        db.session.query(User).delete()
+        try:
+            db.session.query(User).delete()
+        except:
+            print("no db to delete")
         db.create_all()
         u = User(id = 1, username = 'testman', admin = True, email = 'testman@test.com')
         db.session.add(u)

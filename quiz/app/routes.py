@@ -149,23 +149,36 @@ def quiz():
     # Get the JSON from the server...
     # quizQuestions = request.json['questions']
     
+    # THIS IS JUST USED TO LOAD A TEST JSON
     filename = os.path.join(app.static_folder, 'question.json')
     with open(filename) as jsonfile:
         rawdata = json.load(jsonfile)
         data = rawdata['questions']
-    return render_template("quiz.html", title="Quiz", questions=data)
-    
-    # return render_template("quiz.html", title="Quiz")
 
+    # REPLACE ABOVE WITH A DATABASE CALL
 
-# @app.route('/quiz/<int:question_num>', methods=['GET', 'POST'])
-# def quizQuestions(question_num):
+        q1 = data[0]
+        q2 = data[1]
+        q3 = data[2]
+        q4 = data[3]
+        q5 = data[4]
+        q6 = data[5]
+        q7 = data[6]
+        q8 = data[7]
+        q9 = data[8]
+        q10 = data[9]
 
-#     if form.validate_on_submit():
-#         if "submit_button" in request.form:
-#         # newQuestion = question_num + 1
-#             return redirect('quiz/2')
-#     return render_template("test.html", number = question_num)
+    return render_template("quiz.html", title="Quiz",   questions=data,
+                                                        q1=q1,
+                                                        q2=q2,
+                                                        q3=q3,
+                                                        q4=q4,
+                                                        q5=q5,
+                                                        q6=q6,
+                                                        q7=q7,
+                                                        q8=q8,
+                                                        q9=q9,
+                                                        q10=q10)
     
 
                             

@@ -64,6 +64,160 @@
 				}
 			],
 			"correct": "volleyball"
+		},
+		{
+			"qid": 4,
+			"question": "what colour is this?",
+			"answers": [{
+					"ans": "red",
+					"numChosen": 10
+				},
+				{
+					"ans": "blue",
+					"numChosen": 5
+				},
+				{
+					"ans": "green",
+					"numChosen": 2
+				},
+				{
+					"ans": "yellow",
+					"numChosen": 8
+				}
+			],
+			"correct": "red"
+		},
+		{
+			"qid": 5,
+			"question": "what is your name",
+			"answers": [{
+					"ans": "kieren",
+					"numChosen": 10
+				},
+				{
+					"ans": "luke",
+					"numChosen": 5
+				},
+				{
+					"ans": "fraser",
+					"numChosen": 2
+				},
+				{
+					"ans": "sam",
+					"numChosen": 8
+				}
+			],
+			"correct": "luke"
+		},
+		{
+			"qid": 6,
+			"question": "what is the best sport",
+			"answers": [{
+					"ans": "soccer",
+					"numChosen": 10
+				},
+				{
+					"ans": "basketball",
+					"numChosen": 5
+				},
+				{
+					"ans": "volleyball",
+					"numChosen": 2
+				},
+				{
+					"ans": "netball",
+					"numChosen": 8
+				}
+			],
+			"correct": "volleyball"
+		},
+		{
+			"qid": 7,
+			"question": "what colour is this?",
+			"answers": [{
+					"ans": "red",
+					"numChosen": 10
+				},
+				{
+					"ans": "blue",
+					"numChosen": 5
+				},
+				{
+					"ans": "green",
+					"numChosen": 2
+				},
+				{
+					"ans": "yellow",
+					"numChosen": 8
+				}
+			],
+			"correct": "red"
+		},
+		{
+			"qid": 8,
+			"question": "what is your name",
+			"answers": [{
+					"ans": "kieren",
+					"numChosen": 10
+				},
+				{
+					"ans": "luke",
+					"numChosen": 5
+				},
+				{
+					"ans": "fraser",
+					"numChosen": 2
+				},
+				{
+					"ans": "sam",
+					"numChosen": 8
+				}
+			],
+			"correct": "luke"
+		},
+		{
+			"qid": 9,
+			"question": "what is the best sport",
+			"answers": [{
+					"ans": "soccer",
+					"numChosen": 10
+				},
+				{
+					"ans": "basketball",
+					"numChosen": 5
+				},
+				{
+					"ans": "volleyball",
+					"numChosen": 2
+				},
+				{
+					"ans": "netball",
+					"numChosen": 8
+				}
+			],
+			"correct": "volleyball"
+		},
+		{
+			"qid": 10,
+			"question": "what is your name",
+			"answers": [{
+					"ans": "kieren",
+					"numChosen": 10
+				},
+				{
+					"ans": "luke",
+					"numChosen": 5
+				},
+				{
+					"ans": "fraser",
+					"numChosen": 2
+				},
+				{
+					"ans": "sam",
+					"numChosen": 8
+				}
+			],
+			"correct": "luke"
 		}
 	]
 }

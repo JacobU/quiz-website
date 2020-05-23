@@ -1,7 +1,8 @@
 <htmL>
     <head>
         <title>Pub-Quiz</title>
-        <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600&display=swap" rel="stylesheet"> 
+        <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600&display=swap" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
         <link rel="stylesheet" href="{{ url_for('static',filename='css/styles.css') }}">
         <script type="text/javascript" src="{{ url_for('static',filename='js/kieren-script.js') }}"></script>
     </head>
@@ -21,7 +22,7 @@
             {% endif %}
           
         </div>
-        <hr>
+        <hr>    
       
         {% block content %} {% endblock %}
 

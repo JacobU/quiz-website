@@ -28,22 +28,37 @@
         <p>
             {{form.question.label}} <br>
             {{form.question(size=32)}}
+            {% for error in form.question.errors %}
+            <span style="color:red;">{{error}}</span>
+            {% endfor %}
         </p>
         <p>
             {{form.answer.label}} <br>
             {{form.answer(size=32)}}
+            {% for error in form.answer.errors %}
+            <span style="color:red;">{{error}}</span>
+            {% endfor %}
         </p>
         <p>
             {{form.fake_ans1.label}} <br>
             {{form.fake_ans1(size=32)}}
+            {% for error in form.fake_ans1.errors %}
+            <span style="color:red;">{{error}}</span>
+            {% endfor %}
         </p>
         <p>
             {{form.fake_ans2.label}} <br>
             {{form.fake_ans2(size=32)}}
+            {% for error in form.fake_ans2.errors %}
+            <span style="color:red;">{{error}}</span>
+            {% endfor %}
         </p>
         <p>
             {{form.fake_ans3.label}} <br>
             {{form.fake_ans3(size=32)}}
+            {% for error in form.fake_ans3.errors %}
+            <span style="color:red;">{{error}}</span>
+            {% endfor %}
         </p>
         <p>
            {{form.submit()}} 

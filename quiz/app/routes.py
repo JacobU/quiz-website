@@ -99,6 +99,7 @@ def admin_edituser():
         return "Access Denied"
     form=EditUserForm()
     if form.validate_on_submit():
+        form.validate()
         #Check if user exists in database and can be modified
         present = User.query.filter_by(username=form.old_username.data).first()
         if present is None:
@@ -147,8 +148,80 @@ def admin_edituser():
 def admin_addset():
     if(current_user.is_admin() == False):
         return "Access Denied"
+
     form=AddQuestionSetForm()
-    return(render_template("admin-addset.html", form=form))
+    if form.validate_on_submit():
+        form.validate()
+        #check to see if a category has been entered
+        existing_category = form.existing_category.data
+        new_category = form.new_category.data
+        if not (existing_category or new_category):
+            flash("Error: No category entered")
+            return render_template('admin-addset.html', form=form)
+        #Check if existing category data actually is present in database
+        if existing_category and not new_category:
+            present = Question.query.filter_by(category=form.existing_category.data).first()
+            if present is None:
+                flash("Error: Could not find existing category. Please try again.")
+                return render_template("admin-addset.html", form=form)
+        #check if question already exists in the database (questions should be unique)
+        present = db.session.query(Question.id).filter_by(question=form.question.data).scalar() is not None
+        if present:
+            flash("Error: This question already exists. Delete the question if you are wishing to replace it.")
+            return render_template("admin-addset.html", form=form)
+
+        #Check if all answers are unique: Can cause issues if not
+        answers =[]
+        answers.append(form.answer.data)
+        if form.fake_ans1.data in answers:
+            flash("Error: Answer and fake answers must be unique.")
+            return render_template("admin-addset.html", form=form)
+        else:
+            answers.append(form.fake_ans1.data)
+            if form.fake_ans2.data in answers:
+                flash("Error: Answer and fake answers must be unique.")
+                return render_template("admin-addset.html", form=form)
+            else:
+                answers.append(form.fake_ans2.data)
+                if form.fake_ans3.data in answers:
+                    flash("Error: Answer and fake answers must be unique.")
+                return render_template("admin-addset.html", form=form)
+
+        #load in form data and prepare to submit to database       
+        question = Question(question=form.question.data)
+        if existing_category:
+            question.category = form.existing_category.data
+        else:
+            question.category = form.new_category.data
+        answer = Answer(answer=form.answer.data)
+        #commit to db to allow for QuestionAnswer relationtable to be updated.
+        db.session.add(question)
+        db.session.add(answer)
+        db.session.commit()
+        #update Question/Answer with correct ans:
+        questionanswer = QuestionAnswer(question_id=question.id, answer_id =answer.id, correct=True, num_picked=0)
+        db.session.add(questionanswer)
+        db.session.commit()
+        #add in incorrect answers to answer table
+        incorrect1 = Answer(answer=form.fake_ans1.data)
+        incorrect2 = Answer(answer=form.fake_ans2.data)
+        incorrect3 = Answer(answer=form.fake_ans2.data)
+        db.session.add(incorrect1)
+        db.session.add(incorrect2)
+        db.session.add(incorrect3)
+        db.session.commit()
+        #updating question/answer with incorrect questions
+        incorrectquestionanswer1 = QuestionAnswer(question_id=question.id, answer_id=incorrect1.id, correct = False, num_picked=0)
+        incorrectquestionanswer2 = QuestionAnswer(question_id=question.id, answer_id=incorrect2.id, correct=False, num_picked=0)
+        incorrectquestionanswer3 = QuestionAnswer(question_id=question.id, answer_id=incorrect3.id, correct=False, num_picked=0)
+        db.session.add(incorrectquestionanswer1)
+        db.session.add(incorrectquestionanswer2)
+        db.session.add(incorrectquestionanswer3)
+        db.session.commit()
+        #Question set now added to db.
+        flash("Question set added!")
+        return(redirect(url_for('index')))
+    return(render_template('admin-addset.html', form=form))
 
 
 #quiz content

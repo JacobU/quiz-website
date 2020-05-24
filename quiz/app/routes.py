@@ -185,7 +185,7 @@ def admin_addset():
                 answers.append(form.fake_ans2.data)
                 if form.fake_ans3.data in answers:
                     flash("Error: Answer and fake answers must be unique.")
-                return render_template("admin-addset.html", form=form)
+                    return render_template("admin-addset.html", form=form)
 
         #load in form data and prepare to submit to database       
         question = Question(question=form.question.data)
@@ -193,34 +193,78 @@ def admin_addset():
             question.category = form.existing_category.data
         else:
             question.category = form.new_category.data
-        answer = Answer(answer=form.answer.data)
-        #commit to db to allow for QuestionAnswer relationtable to be updated.
         db.session.add(question)
-        db.session.add(answer)
-        db.session.commit()
-        #update Question/Answer with correct ans:
-        questionanswer = QuestionAnswer(question_id=question.id, answer_id =answer.id, correct=True, num_picked=0)
+
+        
+        #check if answer is already in the answers table. If it isnt add to table. If present retrieve its ID and serve to question answer table
+        present = db.session.query(Answer.id).filter_by(answer=form.answer.data).scalar() is not None
+        if not present:
+            #answer not present -> add to ans table and add relation
+            answer = Answer(answer=form.answer.data)
+            db.session.add(answer)
+            db.session.commit()
+            questionanswer = QuestionAnswer(question_id=question.id, answer_id =answer.id, correct=True, num_picked=0)
+        else:
+            #answer present -> get ID and add relation
+            answer =Answer.query.filter_by(answer=form.answer.data).first()
+            answer_id =answer.id
+            questionanswer = QuestionAnswer(question_id=question.id, answer_id =answer_id, correct=True, num_picked=0)
         db.session.add(questionanswer)
         db.session.commit()
-        #add in incorrect answers to answer table
-        incorrect1 = Answer(answer=form.fake_ans1.data)
-        incorrect2 = Answer(answer=form.fake_ans2.data)
-        incorrect3 = Answer(answer=form.fake_ans2.data)
-        db.session.add(incorrect1)
-        db.session.add(incorrect2)
-        db.session.add(incorrect3)
+        
+        
+        #add in incorrect answers to answer table. Need to check an answer isnt already in the table due to table relations.
+        #if incorrect ans is already in the database we need to grab its ID and store it.
+
+        #process incorrect ans 1 using above logic.
+        present = db.session.query(Answer.id).filter_by(answer=form.fake_ans1.data).scalar() is not None
+        if not present:
+            incorrect1 = Answer(answer=form.fake_ans1.data)
+            db.session.add(incorrect1)
+            db.session.commit()
+            questionanswer = QuestionAnswer(question_id=question.id, answer_id =incorrect1.id, correct=False, num_picked=0)
+            db.session.add(questionanswer)
+            db.session.commit()
+        else:
+            incorrect1 = Answer.query.filter_by(answer=form.fake_ans1.data).first()
+            incorrect1_id = incorrect1.id
+            questionanswer = QuestionAnswer(question_id=question.id, answer_id =incorrect1_id, correct=False, num_picked=0)
+        db.session.add(questionanswer)
         db.session.commit()
-        #updating question/answer with incorrect questions
-        incorrectquestionanswer1 = QuestionAnswer(question_id=question.id, answer_id=incorrect1.id, correct = False, num_picked=0)
-        incorrectquestionanswer2 = QuestionAnswer(question_id=question.id, answer_id=incorrect2.id, correct=False, num_picked=0)
-        incorrectquestionanswer3 = QuestionAnswer(question_id=question.id, answer_id=incorrect3.id, correct=False, num_picked=0)
-        db.session.add(incorrectquestionanswer1)
-        db.session.add(incorrectquestionanswer2)
-        db.session.add(incorrectquestionanswer3)
+
+        #process incorrect ans 2 using above logic
+        present = db.session.query(Answer.id).filter_by(answer=form.fake_ans2.data).scalar() is not None
+        if not present:
+            incorrect2 = Answer(answer=form.fake_ans2.data)
+            db.session.add(incorrect2)
+            db.session.commit()
+            questionanswer = QuestionAnswer(question_id=question.id, answer_id =incorrect2.id, correct=False, num_picked=0)
+            db.session.add(questionanswer)
+            db.session.commit()
+        else:
+            incorrect2 = Answer.query.filter_by(answer=form.fake_ans2.data).first()
+            incorrect2_id = incorrect2.id
+            questionanswer = QuestionAnswer(question_id=question.id, answer_id =incorrect2_id, correct=False, num_picked=0)
+        db.session.add(questionanswer)
         db.session.commit()
-        #Question set now added to db.
+
+        #process incorrect ans 3 using above logic
+        present = db.session.query(Answer.id).filter_by(answer=form.fake_ans3.data).scalar() is not None
+        if not present:
+            incorrect3 = Answer(answer=form.fake_ans3.data)
+            db.session.add(incorrect3)
+            db.session.commit()
+            questionanswer = QuestionAnswer(question_id=question.id, answer_id =incorrect3.id, correct=False, num_picked=0)
+            db.session.add(questionanswer)
+            db.session.commit()
+        else:
+            incorrect3 = Answer.query.filter_by(answer=form.fake_ans3.data).first()
+            incorrect3_id = incorrect3.id
+            questionanswer = QuestionAnswer(question_id=question.id, answer_id =incorrect3_id, correct=False, num_picked=0)
+        db.session.add(questionanswer)
+        db.session.commit()
         flash("Question set added!")
-        return(redirect(url_for('index')))
+        return(redirect(url_for('admin')))
     return(render_template('admin-addset.html', form=form))
 
 

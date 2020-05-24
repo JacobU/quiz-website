@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 from app import app,db
-from app.models import User,Question,Answer,QuestionAnswer
+from app.models import User,Question,Answer,QuestionAnswer,Quiz
 
 dfuser = pd.read_csv('dbfill/user.csv', delimiter = ',',header=None,skipinitialspace = True)
 print(dfuser)
@@ -17,21 +17,20 @@ try:
     db.session.query(Question).delete()
     db.session.query(Answer).delete()
     db.session.query(QuestionAnswer).delete()
+    db.session.query(Quiz).delete()
 except:
     print("no db to delete")
 
 db.create_all()
 
 for index, row in dfuser.iterrows():
-    u = User(id = row[0], username = row[1], admin = row[3], email = row[4])
+    u = User(id = row[0], username = row[1], admin = row[3], email = row[4], userbio = row[5])
     u.set_password(row[2])
     db.session.add(u)
     db.session.commit()
 
 for index, row in dfquestion.iterrows():
     u = Question(id = row[0], question = row[1], category = row[2], num_pres = row[3])
-    #d = db.session.query(Question)
-    #print(d.get(1))
     db.session.add(u)
     db.session.commit()
     

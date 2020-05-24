@@ -9,6 +9,7 @@ class User(UserMixin, db.Model):
     pword_h = db.Column(db.String(128))
     admin = db.Column(db.Boolean, default = False)
     email = db.Column(db.String(128), index = True)
+    userbio = db.Column(db.String(256))
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -58,6 +59,15 @@ class QuestionAnswer(db.Model):
         return '<QuestionAnswer {}>'.format(self.id)
 
 
+class Quiz(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    question_id = db.Column(db.Integer, db.ForeignKey('question.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    answer_id = db.Column(db.Integer, db.ForeignKey('answer.id'))
+
+    #unsure if this will work with id
+    def __repr__(self):
+        return '<Quiz {}>'.format(self.id)
 
     
 

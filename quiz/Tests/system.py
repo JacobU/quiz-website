@@ -29,9 +29,9 @@ class SystemTest(unittest.TestCase):
             db.session.commit()
             db.session.remove()
     
-    def test_set_password(self):
+    def test_index(self):
         u = User.query.get(1)
-        u.set_password('Password1')
+        name =  u.get()
         self.assertFalse(u.check_password('pw'))
         self.assertTrue(u.check_password('Password1'))
 

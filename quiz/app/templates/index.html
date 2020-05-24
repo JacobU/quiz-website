@@ -7,6 +7,7 @@
     <div class = "col-lg-10 index-home">
         <h1>Welcome {{current_user.username}}! </h1>
         <h2>This is our project</h2>
+        <hr/>
         {% if current_user.is_authenticated %}
         <div class = "row justify-content-center">
             <button class="btn btn-primary mx-auto" onclick="location.href= ' //127.0.0.1:5000/category '" type="button">

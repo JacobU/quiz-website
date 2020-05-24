@@ -1,6 +1,7 @@
 from app import db, login
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
+from hashlib import md5
 
 #initial version of database will store passwords. Store hashes later?
 class User(UserMixin, db.Model):
@@ -20,6 +21,11 @@ class User(UserMixin, db.Model):
     #check if a user has administrator priv
     def is_admin(self):
         return (self.admin == True)
+    #Gets the avatar for the user
+    def avatar(self, size):
+        digest = md5(self.email.lower().encode('utf-8')).hexdigest()
+        return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(
+            digest, size)
 
 #taken from flask mega tutorial
 #finds user record in User table

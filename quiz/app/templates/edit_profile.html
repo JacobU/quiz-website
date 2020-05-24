@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/user.css' ) }}">
+<div class = "row justify-content-center">
+    <div class = "col-lg-8 user-bg">
+        <h3>Edit Profile</h3>
+        <form action="" method="post" class="text-center">
+            {{ form.hidden_tag()}}
+
+            <div class="form-group row justify-content-center">
+                <div class="col-lg-4">
+                    <label class = "edit-username" >Username</label>
+                    {{ form.username(class_= "form-control edit-username", size=32) }}
+                    <label class = "edit-me" >About Me</label>
+                    {{ form.about_me(class_= "form-control edit-me", cols=50, rows=4) }}
+                </div>
+            </div>
+            {{ form.submit(class_= "btn btn-primary") }}
+        </form>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                <div class="form-group row justify-content-center">
+                    <div class="col-lg-4 mt-5">
+                        {% if message=="Username already taken!" %}
+                            <div class="alert alert-danger" role="alert">
+                                {{message}}
+                            </div>
+                        {% else %}
+                            <div class="alert alert-success" role="alert">
+                                {{message}} {{ current_user.username }}
+                            </div>
+                    </div>
+                </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+
+    </div>
+</div>
+{% endblock %}

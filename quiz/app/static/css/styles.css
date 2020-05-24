@@ -47,8 +47,8 @@ body {
     display: inline-block;
     border-radius: 2em;
     background-color: grey;
-    margin: 3em 2em 2em 4em;
-    height: 90%;
+    margin: 0em 2em 2em 4em;
+    height: 80%;
     width: 80%;
 }
 
@@ -88,4 +88,9 @@ body {
 
 .option:hover {
     background-color: lightblue;
+}
+
+.markTotal {
+    color: white;
+    margin: 2em;
 }

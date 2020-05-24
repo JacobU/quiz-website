@@ -348,6 +348,9 @@ def quiz():
     
     # Get the JSON from the server...
     # quizQuestions = request.json['questions']
+    
+    # question_set = session.get('request')
+
     # THIS IS JUST USED TO LOAD A TEST JSON
     filename = os.path.join(app.static_folder, 'new.json')
     with open(filename) as jsonfile:

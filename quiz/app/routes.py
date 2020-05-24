@@ -268,10 +268,10 @@ def admin_addset():
         return(redirect(url_for('admin')))
     return(render_template('admin-addset.html', form=form))
 
-#quiz content
-@app.route('/category', methods = ['GET', 'POST'])
+
+    @app.route('/category', methods = ['GET', 'POST'])
 def category():
-    cat = [('Sport','Sport'), ('Music','Music'), ('Food','Food')]
+    cat = [('Sport','Sport'), ('General','General'), ('Food','Food')]
     form = CategoryForm()
     form.categories.choices = cat
     result = form.categories.data
@@ -290,23 +290,20 @@ def category():
                 "correct answers": ac
             }
             x = json.dumps(quest)
-            return x
-            quest = json.dumps({"username": str(user[0].username),"questions": q,"answers": a,})
+            session['request'] = x
             
-            
-            for i in range(1,10):
-                quest = Question.query.filter_by(category=result).order_by(func.random()).limit(1)
-                q.append(str(quest.question))
+            z = Question.query.filter_by(category = result).order_by(func.random()).limit(5)
+            q = []
+            for i in range(0,4):
+                q[i]
+            return q
+            x = session.query(QuestionAnswer.answer_id).filter_by(question_id = "x")
+            x.filter_by(correct = True)
 
-            quest = json.dumps({"username": str(user[0].username),"questions": q, }) # <--- not fully done yet.
-            #answers = QuestionAnswer.query.filter_by(questions.get_id() = answers.get_id()) <--- Still needs to be done
-            return(redirect(url_for('index')))
+            return(redirect(url_for('quiz')))
         else:
             flash(result)
             return(redirect(url_for('category')))
-
-
-    return(render_template('category.html', form=form))
 
 @app.route('/user/<username>')
 @login_required
@@ -335,8 +332,6 @@ def quiz():
     
     # Get the JSON from the server...
     # quizQuestions = request.json['questions']
-    
-
     # THIS IS JUST USED TO LOAD A TEST JSON
     filename = os.path.join(app.static_folder, 'new.json')
     with open(filename) as jsonfile:

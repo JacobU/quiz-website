@@ -2,6 +2,7 @@
 
 {% block content %}
     <h1>Add a user to the database</h1>
+    <hr>
     {% with messages = get_flashed_messages() %}
     {% if messages %}  
        <ul style="list-style:none;"> 
@@ -42,5 +43,6 @@
             {{form.submit()}}
         </p>
     </form>
+    <hr>
     <a href="{{ url_for('admin')}} "> Back to admin portal</a>
 {% endblock %}

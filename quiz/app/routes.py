@@ -268,7 +268,6 @@ def admin_addset():
         return(redirect(url_for('admin')))
     return(render_template('admin-addset.html', form=form))
 
-
 #quiz content
 @app.route('/category', methods = ['GET', 'POST'])
 def category():

@@ -1,7 +1,7 @@
 from flask import render_template, flash, redirect, url_for, jsonify, json, request
 from flask_login import current_user, login_user, logout_user, login_required
 from app import app, db
-from app.forms import LoginForm, RegisterForm, AddUserForm, EditUserForm, CategoryForm, AddQuestionSetForm
+from app.forms import LoginForm, RegisterForm, AddUserForm, EditUserForm, CategoryForm, AddQuestionSetForm, DeleteQuestionSetForm
 from app.models import User, Question, Answer, QuestionAnswer
 from sqlalchemy import func
 from sqlalchemy.sql import exists  
@@ -267,6 +267,20 @@ def admin_addset():
         flash("Question set added!")
         return(redirect(url_for('admin')))
     return(render_template('admin-addset.html', form=form))
+
+@app.route('/admin/deletequestionset', methods=["GET", "POST"])
+@login_required
+def admin_deleteset():
+    if(current_user.is_admin() == False):
+        return "Access Denied"
+
+    form=DeleteQuestionSetForm()
+    return render_template("admin-deleteset.html",form=form)
+
+
+
+
+
 
 #quiz content
 @app.route('/category', methods = ['GET', 'POST'])

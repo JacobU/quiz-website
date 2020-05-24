@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, RadioField, TextAreaField
 from wtforms.validators import InputRequired, EqualTo, Email, Length
-from app.models import User
+from app.models import User, Question
 
 class LoginForm(FlaskForm):
     username = StringField("Username", validators=[InputRequired()])
@@ -47,7 +47,13 @@ class CategoryForm(FlaskForm):
     categories = RadioField("Categories")
     submit=SubmitField('Start Quiz')
 
-class EditProfileForm(FlaskForm):
-    username = StringField('Username', validators=[InputRequired()])
-    about_me = TextAreaField('About me', validators=[Length(min=0, max=140)])
-    submit = SubmitField('Submit')
+class AddQuestionSetForm(FlaskForm):
+    existing_category = StringField("Enter an existing category name: ")
+    new_category = StringField("Enter a new category name: ")
+    question = StringField("Enter a question: ", validators=[InputRequired()])
+    answer = StringField("Enter in the correct answer to the question: ", validators=[InputRequired()])
+    fake_ans1 = StringField("Enter in the first false answer: ", validators=[InputRequired()])
+    fake_ans2 = StringField("Enter in the second false answer: ", validators=[InputRequired()])
+    fake_ans3 = StringField("Enter in the third false answer: ", validators=[InputRequired()])
+    submit=SubmitField("Submit question set")
+    

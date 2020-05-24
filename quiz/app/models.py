@@ -67,9 +67,12 @@ class QuestionAnswer(db.Model):
 
 class Quiz(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    question_id = db.Column(db.Integer, db.ForeignKey('question.id'))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    answer_id = db.Column(db.Integer, db.ForeignKey('answer.id'))
+    category = db.Column(db.String(32))
+    recent_score = db.Column(db.Integer)
+    total_score = db.Column(db.Integer)
+    attempts = db.Column(db.Integer)
+
 
     #unsure if this will work with id
     def __repr__(self):

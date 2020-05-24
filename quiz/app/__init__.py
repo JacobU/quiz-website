@@ -10,11 +10,8 @@ import os
 
 
 app = Flask(__name__)
-<<<<<<< HEAD
 # change Config to TestConfig for tests 
-=======
 app._static_folder = os.getcwd() + '/app/static'
->>>>>>> 02cafe9adbee589f55def7dca7ef13661087cb8f
 app.config.from_object(Config)
 db = SQLAlchemy(app)
 migrate = Migrate(app,db)

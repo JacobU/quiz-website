@@ -1,22 +1,30 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class = "jumbotron quiz-bg">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/category.css' ) }}">
     <div class = "row justify-content-center">
-        <div class = "col-lg-6">
+        <div class = "col-lg-8 cat-form">
             <h3 class="text-center mb-4">Choose Your Category!</h3>
+            <hr/>
             <form action= "" method="post" class="text-center" novalidate>
                     {{ form.hidden_tag()}}
-                <p>
-                    {{ form.categories() }}
-                </p>
                 <div class = "row justify-content-center">
-                    <button type="submit" name = "submit" class="btn btn-primary mx-auto" onclick="cat()">Start Quiz</button>
-                </div> 
+                    {{ form.categories(class_="cat-list") }}
+                </div>
+                <button type="submit" name = "submit" id="quiz-btn">Start Quiz</button>
                 <div class = "row justify-content-center mt-2">
                     {% with messages = get_flashed_messages() %}
                         {% if messages %}
                             {% for message in messages %}
-                                <p> You have chosen <b>{{ message }}</b> Do you wish to continue?</p>
+                                {% if message==None %}
+
+                                <div class="alert alert-danger" role="alert">
+                                    {{current_user.username}}, have not chosen an option!
+                                </div>
+                                {% else %}
+                                <div class="alert alert-success" role="alert">
+                                    {{ current_user.username }} selected {{ message }}. Your quiz is about to start.
+                                </div>
+                                {% endif %}
                             {% endfor %}
                         {% endif %}
                     {% endwith %}
@@ -24,7 +32,6 @@
             </form>
         </div>
     </div>
-</div>
 {% endblock %}
 
 

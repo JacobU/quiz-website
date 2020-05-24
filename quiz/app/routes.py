@@ -1,16 +1,16 @@
 from flask import render_template, flash, redirect, url_for, jsonify, json, request
 from flask_login import current_user, login_user, logout_user, login_required
 from app import app, db
-from app.forms import LoginForm, RegisterForm, AddUserForm, EditUserForm, CategoryForm
+from app.forms import LoginForm, RegisterForm, AddUserForm, EditUserForm, CategoryForm, EditProfileForm
 from app.models import User, Question
 from sqlalchemy import func
+from sqlalchemy.sql import exists  
 import os
 
 @app.route('/')
 @app.route('/index')
 def index():
     return render_template("index.html")
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -145,27 +145,64 @@ def admin_edituser():
 
 @app.route('/category', methods = ['GET', 'POST'])
 def category():
+    cat = [('Sport','Sport'), ('Music','Music'), ('Food','Food')]
     form = CategoryForm()
-    if form.is_submitted():
-        cat_choices = ['Sport','Food','Music']
-        result = form.categories.data
-        for key in cat_choices:
-            if(result in key):
-                flash(result)
+    form.categories.choices = cat
+    result = form.categories.data
 
-        return(redirect(url_for('index')))
-        if current_user.is_authenticated:
+    if form.is_submitted():
+        if result != None:
+            flash(result)
             user = User.query.filter_by(id=1)
-            q = []
+            q = ['1','2']
+            a = [('1','2','3','4'),('1','2','3','4')]
+            ac = ['1','4']
+            quest = {
+                "username": str(user[0].username),
+                "questions": q,
+                "answers": a,
+                "correct answers": ac
+            }
+            x = json.dumps(quest)
+            return x
+            quest = json.dumps({"username": str(user[0].username),"questions": q,"answers": a,})
+            
+            
             for i in range(1,10):
                 quest = Question.query.filter_by(category=result).order_by(func.random()).limit(1)
                 q.append(str(quest.question))
 
-            quest = json.dumps({"username": str(user[0].username),"questions": q}) # <--- not fully done yet.
+            quest = json.dumps({"username": str(user[0].username),"questions": q, }) # <--- not fully done yet.
             #answers = QuestionAnswer.query.filter_by(questions.get_id() = answers.get_id()) <--- Still needs to be done
             return(redirect(url_for('index')))
+        else:
+            flash(result)
+            return(redirect(url_for('category')))
+
 
     return(render_template('category.html', form=form))
+
+@app.route('/user/<username>')
+@login_required
+def user(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    return render_template('user.html', user=user)
+
+@app.route('/edit_profile', methods = ['GET', 'POST'])
+@login_required
+def edit_profile():
+    form = EditProfileForm()
+    if form.validate_on_submit():
+        if db.session.query(exists().where(User.username == form.username.data)).scalar():
+           flash("Username already taken!")
+        else:
+            current_user.username = form.username.data
+            current_user.about_me = form.about_me.data
+            db.session.commit()
+            flash('Changed username to: ')
+    return render_template('edit_profile.html', title='Edit Profile',
+                           form=form)
+
 
 @app.route('/quiz', methods=['GET', 'POST'])
 def quiz():

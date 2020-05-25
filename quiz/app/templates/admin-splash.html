@@ -22,14 +22,14 @@
                     <li><a href="{{ url_for('admin_adduser') }}">Add users</a></li>
                     <li> <a href="{{ url_for('admin_edituser') }}">Modify or delete a user</a></li>
                     <li><a href="{{ url_for('admin_viewusers') }}">View users</a></li>
-                    <li><a href="#BLANK">User quiz history</a></li>
+                    <li><a href="{{ url_for('admin_viewuserstats') }}">User quiz history</a></li>
                 </ul>
                 <h4>Quiz Administration </h4>
                 <ul>
                     
                     <li> <a href="{{ url_for('admin_addset') }}">Add a question set or category</a></li>
                     <li> <a href="{{ url_for('admin_deleteset') }}">Delete a question set or category</a></li>
-                    <li> <a href="#BLANK">View Question Sets and Statistical information</a></li>
+                    <li> <a href="{{ url_for('admin_viewstats') }}">View Question Sets and Statistical information</a></li>
                 </ul>
 
             </div>

@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect, url_for, jsonify, json, requ
 from flask_login import current_user, login_user, logout_user, login_required
 from app import app, db
 from app.forms import LoginForm, RegisterForm, AddUserForm, EditUserForm, CategoryForm, AddQuestionSetForm, DeleteQuestionSetForm, EditProfileForm
-from app.models import User, Question, Answer, QuestionAnswer
+from app.models import User, Question, Answer, QuestionAnswer, Quiz
 from sqlalchemy import func
 from sqlalchemy.sql import exists  
 import os
@@ -320,9 +320,26 @@ def admin_deleteset():
     return render_template("admin-deleteset.html",form=form)
 
 
+@app.route('/admin/admin-stats', methods=["GET", "POST"])
+@login_required
+def admin_viewstats():
+    if (current_user.is_admin() == False):
+        return "Access Denied"
+    #quiz = Quiz.query.with_entities(Quiz.category,Quiz.total_score,Quiz.attempts)
+    cat = db.session.query(Quiz.category,Quiz.total_score,Quiz.attempts).order_by(func.sum(Quiz.total_score)).group_by(Quiz.category)
+    return render_template("admin-stats.html", Cats=cat)
 
 
 
+@app.route('/admin/viewstats', methods=["GET", "POST"])
+@login_required
+def admin_viewuserstats():
+    if (current_user.is_admin() == False):
+        return "Access Denied"
+    #quiz = Quiz.query.with_entities(Quiz.category,Quiz.total_score,Quiz.attempts)
+    
+    usersscore = db.session.query(Quiz,User).filter(User.id == Quiz.user_id).with_entities(Quiz.category,Quiz.attempts,Quiz.total_score,User.username)
+    return render_template("viewstats.html", Cats=usersscore)
 
 #quiz content
 @app.route('/category', methods = ['GET', 'POST'])

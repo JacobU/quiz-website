@@ -11,6 +11,7 @@ dfanswer = pd.read_csv('dbfill/answer.csv',  delimiter = ',',header=None,skipini
 print(dfanswer)
 dfmiddle = pd.read_csv('dbfill/questionanswer.csv',  delimiter = ',',header=None,skipinitialspace = True)
 print(dfmiddle)
+dfquiz = pd.read_csv('dbfill/quiz.csv',  delimiter = ',',header=None,skipinitialspace = True)
 
 try:
     db.session.query(User).delete()
@@ -41,5 +42,10 @@ for index, row in dfanswer.iterrows():
 
 for index, row in dfmiddle.iterrows():
     u = QuestionAnswer(id = row[0], question_id = row[1], answer_id = row[2], correct = row[3], num_picked = row[1])
+    db.session.add(u)
+    db.session.commit()
+
+for index, row in dfquiz.iterrows():
+    u = Quiz(id = row[0], user_id = row[1], category = row[2], recent_score = row[3], total_score = row[4], attempts = row[5])
     db.session.add(u)
     db.session.commit()

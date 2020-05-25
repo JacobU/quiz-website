@@ -453,8 +453,8 @@ def quiz():
 
         x = Quiz.query.filter_by(user_id=user_id, category=data["category"])
         x.recent_score = data["score"]
-        x.total_score += data["score"]
-        x.attempts += 1
+        x.total_score = x.total_score + data["score"] 
+        x.attempts = x.attempts + 1
         db.session.commit
 
         return jsonify(data)

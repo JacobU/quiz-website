@@ -1,3 +1,92 @@
+commit 106f7dd64079424dde0cba783bc5291f554cbc81
+Author: JacobU <kieren.underwood@gmail.com>
+Date:   Mon May 25 23:47:05 2020 +0800
+
+    removing unnecessary folders, working on db query
+
+commit 565c68a6eabc39902a1eddcee8320a0955076cf9
+Merge: e4deb95 d186830
+Author: JacobU <kieren.underwood@gmail.com>
+Date:   Mon May 25 23:27:54 2020 +0800
+
+    Merge branch 'post'
+
+commit d186830e12080964384b4fb7009ad8c3b534e8a5
+Author: JacobU <kieren.underwood@gmail.com>
+Date:   Mon May 25 23:27:03 2020 +0800
+
+    add stats to the db
+
+commit e4deb9530383b492d54f002b64c3a511e57db10d
+Author: Luke Govus <lukegovus@gmail.com>
+Date:   Mon May 25 23:02:19 2020 +0800
+
+    fixed merge error
+
+commit f589a01fcfae144573b3286a8664a955bd8a2a9b
+Merge: e62b425 15c8dce
+Author: Luke Govus <lukegovus@gmail.com>
+Date:   Mon May 25 23:01:59 2020 +0800
+
+    Merge branch 'master' of https://github.com/JacobU/quiz-website
+
+commit e62b425cb25e2047a547f4bb91d5948ee3ab1688
+Author: Luke Govus <lukegovus@gmail.com>
+Date:   Mon May 25 23:00:05 2020 +0800
+
+    Added questions for 3 categories
+
+commit 15c8dce64fbd39744a249365a8dc93dbb6adf17b
+Merge: 013571d 1c94589
+Author: JacobU <kieren.underwood@gmail.com>
+Date:   Mon May 25 22:56:05 2020 +0800
+
+    Merge branch 'post-request'
+
+commit 013571d0c2917bf849c707745e498f1a13561161
+Merge: b1b40c2 83db421
+Author: Fraser Gilbert <frasergilbert184@gmail.com>
+Date:   Mon May 25 22:48:53 2020 +0800
+
+    updated user profile styling
+
+commit b1b40c20fa58828ba45d61421c5f8279f09dc58c
+Merge: be00bf2 094ae07
+Author: Fraser Gilbert <frasergilbert184@gmail.com>
+Date:   Mon May 25 22:46:28 2020 +0800
+
+    updated user profile and styling of admin section
+
+commit 83db42165828a3f8bbaf7e5d70c7049bb8da0c65
+Author: 22232705 <64118358+22232705@users.noreply.github.com>
+Date:   Mon May 25 22:41:10 2020 +0800
+
+    Update README.md
+
+commit 1c9458945703d0bdec471b0b26123b4283e57244
+Author: JacobU <kieren.underwood@gmail.com>
+Date:   Mon May 25 22:30:19 2020 +0800
+
+    post-request problems 400
+
+commit 094ae0799c62460f4ca8856b4d9278518e03afea
+Author: Fraser Gilbert <frasergilbert184@gmail.com>
+Date:   Mon May 25 22:25:06 2020 +0800
+
+    added styling to website
+
+commit be00bf265cf816eb9a10c530471e387d38bb2af8
+Author: Sam Thornbury <22232705@student.uwa.edu.au>
+Date:   Mon May 25 22:22:59 2020 +0800
+
+    table styling
+
+commit 858def5dd378066144c4450fc78d7c2a282f5330
+Author: Sam Thornbury <22232705@student.uwa.edu.au>
+Date:   Mon May 25 22:19:39 2020 +0800
+
+    view-qsets
+
 commit 73bbfa724866209ef4a8d0b5a783dda44093cf5a
 Author: Sam Thornbury <22232705@student.uwa.edu.au>
 Date:   Mon May 25 21:09:19 2020 +0800

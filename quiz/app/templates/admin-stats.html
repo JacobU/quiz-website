@@ -4,4 +4,23 @@
 <h3>All statistics for each category is displayed below.</h3>
 <hr>
 
+<table>
+    <tr> 
+        <th>User ID</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Admin Permissions</th>
+    </tr>
+    <!--Loop through database table and display-->
+    {% for user in Users %}
+    <tr>
+        <td class="id">{{user.id}}</td>
+        <td class="username">{{user.username}}</td>
+        <td class="email">{{user.email}}</td>
+        <td class="admin">{{user.admin}}</td>
+    </tr>
+    {% endfor %}
+</table>
+<a href="{{ url_for('admin')}} "> Back to admin portal</a>
+
 {% endblock %}

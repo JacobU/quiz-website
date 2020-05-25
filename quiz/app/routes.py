@@ -1,13 +1,8 @@
 from flask import render_template, flash, redirect, url_for, jsonify, json, request, session
 from flask_login import current_user, login_user, logout_user, login_required
 from app import app, db
-<<<<<<< HEAD
 from app.forms import LoginForm, RegisterForm, AddUserForm, EditUserForm, CategoryForm, AddQuestionSetForm, DeleteQuestionSetForm, EditProfileForm, SearchUserForm
-from app.models import User, Question, Answer, QuestionAnswer
-=======
-from app.forms import LoginForm, RegisterForm, AddUserForm, EditUserForm, CategoryForm, AddQuestionSetForm, DeleteQuestionSetForm, EditProfileForm
 from app.models import User, Question, Answer, QuestionAnswer, Quiz
->>>>>>> origin
 from sqlalchemy import func
 from sqlalchemy.sql import exists  
 import os

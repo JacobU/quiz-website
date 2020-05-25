@@ -43,6 +43,9 @@ li {
 .stat-list {
     align-content: center;
 }
+p {
+    text-align:center;
+}
 
 
 

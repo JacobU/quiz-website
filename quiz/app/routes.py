@@ -442,6 +442,21 @@ def quiz():
     # quizQuestions = request.json['questions']
     if request.method == 'POST':
         data = request.json
+
+        # results.score = window.answersCorrect;
+        # results.username = "{{ username }}";
+        # results.category = "{{ category }}";
+        
+        # Get user ID
+        y = User.query.filter_by(username = data.username).first()
+        user_id = y.id
+
+        x = Quiz.query.filter_by(user_id=user_id, category=data.category)
+        x.recent_score = data.score
+        x.total_score += data.score
+        x.attempts += 1
+        db.session.commit
+
         return jsonify(data)
 
     question_set = session.get('request')
@@ -450,11 +465,13 @@ def quiz():
     answers = question_set["answers"]
     corrAnswers = question_set["correct answer"]
     username = question_set["username"]
+    category = question_set["category"]
 
     return render_template("quiz.html", title="Quiz",   questions=questions,
                                                         answers=answers,
                                                         corrAnswers=corrAnswers,
-                                                        username=username)
+                                                        username=username,
+                                                        category=category)
     
 
                             

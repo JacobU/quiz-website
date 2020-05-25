@@ -115,13 +115,13 @@
                 var results = new Object();
                 results.score = window.answersCorrect;
                 results.username = "{{ username }}";
-
+                results.category = "{{ category }}";
                 console.log(results);
                 $.ajax({
                     type: "POST",
                     url: "{{ url_for('quiz') }}",
                     contentType: "application/json",
-                    data: results,
+                    data: JSON.stringify(results),
                     dataType: "json",
                     success: function(response) {
                         console.log(response);

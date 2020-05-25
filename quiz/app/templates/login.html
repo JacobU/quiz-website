@@ -9,11 +9,9 @@
         <h1> User Login </h1>
         {% with messages = get_flashed_messages() %}
         {% if messages %}  
-        <ul style="list-style:none;"> 
         {%for message in messages %}
-            <li style="color:red; align-self: center; font-weight: bold; "> {{ message }}</li>
+            <div class="alert alert-danger text-center" role="alert"> {{ message }}</div>
         {% endfor %}
-        </ul>
         {% endif %}
     {% endwith %}
         <div class = "row justify-content-center">

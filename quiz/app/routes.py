@@ -25,6 +25,7 @@ def login():
             flash("Error: Invalid credentials") 
             return render_template('login.html', form=form)
         login_user(user, remember=form.remember_me.data)
+        flash("Login successful!")
         return redirect(url_for('index'))
     return render_template('login.html', form=form)
 
@@ -45,13 +46,14 @@ def register():
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        flash("Registration Completed!") #FLASH NOT WORKING?!?!?!?!?!
-        return redirect(url_for('login'))
+        flash("Registration Completed!") 
+        return redirect(url_for('index'))
     return(render_template('register.html', form=form))
 
 @app.route('/signout')
 def signout():
     logout_user()
+    flash("Logout successful!")
     return redirect(url_for('index'))
 # end user login/register content
 # Admin content

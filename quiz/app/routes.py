@@ -429,22 +429,15 @@ def quiz():
     
     # Get the JSON from the server...
     # quizQuestions = request.json['questions']
-    
+    if request.method == 'POST':
+        data = request.json
+        return jsonify(data)
+
     question_set = session.get('request')
 
     questions = question_set["questions"]
     answers = question_set["answers"]
     corrAnswers = question_set["correct answer"]
-    
-    # THIS IS JUST USED TO LOAD A TEST JSON
-    # filename = os.path.join(app.static_folder, 'new.json')
-    # with open(filename) as jsonfile:
-    #     rawdata = json.load(jsonfile)
-        
-        
-    #     questions = rawdata["questions"]
-    #     answers = rawdata["answers"]
-    #     corrAnswers = rawdata["correct answers"]
 
     return render_template("quiz.html", title="Quiz",   questions=questions,
                                                         answers=answers,

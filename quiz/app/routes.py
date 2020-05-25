@@ -345,7 +345,8 @@ def category():
         if result != None:
             flash(result)
             user = User.query.filter_by(id=1)
-            x = Question.query.distinct(func.random()).limit(2)
+            # x = Question.query.order_by(func.random()).limit(10)
+            x = Question.query.filter_by(category = result).order_by(func.random()).limit(10)
             q = []
             full_request = []
             t =[]
@@ -412,17 +413,21 @@ def quiz():
     # Get the JSON from the server...
     # quizQuestions = request.json['questions']
     
-    # question_set = session.get('request')
+    question_set = session.get('request')
 
+    questions = question_set["questions"]
+    answers = question_set["answers"]
+    corrAnswers = question_set["correct answer"]
+    
     # THIS IS JUST USED TO LOAD A TEST JSON
-    filename = os.path.join(app.static_folder, 'new.json')
-    with open(filename) as jsonfile:
-        rawdata = json.load(jsonfile)
+    # filename = os.path.join(app.static_folder, 'new.json')
+    # with open(filename) as jsonfile:
+    #     rawdata = json.load(jsonfile)
         
         
-        questions = rawdata["questions"]
-        answers = rawdata["answers"]
-        corrAnswers = rawdata["correct answers"]
+    #     questions = rawdata["questions"]
+    #     answers = rawdata["answers"]
+    #     corrAnswers = rawdata["correct answers"]
 
     return render_template("quiz.html", title="Quiz",   questions=questions,
                                                         answers=answers,

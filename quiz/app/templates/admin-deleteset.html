@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class = "row justify-content-center">
-    <div class = "col-lg-8 col-md-8 col-sm-12 base-bg">
+    <div class = "col-lg-8 col-md-8 col-sm-12 text-center base-bg">
         <h1>Delete a question-set from the database</h1>
        <hr>
         {% with messages = get_flashed_messages() %}
@@ -33,7 +33,7 @@
             </p>
         </form>
         <hr>
-        <a href="{{ url_for('admin')}} "> Back to admin portal</a>
+        <a class="navback" href="{{ url_for('admin')}} "> Back to admin portal</a>
     </div>
 </div>
 

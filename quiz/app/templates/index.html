@@ -16,6 +16,28 @@
     {% endwith %}
         <h1>Welcome {{current_user.username}}! </h1>
         <h2>This is our project</h2>
+        <p>
+        This is a pub quiz website designed to test your general knowledge across a wide range of categories as chosen by your quiz master.
+         This is a general knowledge quiz (that should ideally be taken in a pub).<br> We don’t want any of your PhD or expert level questions nerd…
+        </p> <br>
+        <h2>Quiz Guide</h2>
+        <h3>Requirements</h3>
+        <ol>
+            <li>- Ability to read at or above a grade 5 level</li>
+            <li>- A smart cookie (like us admins) to make you up some questions</li>
+            <li>- The ability to click a mouse and fill out a simple registration form</li>
+            <li>- Mates to play with (note: if they struggle with the above requirements, are they really your mate?)</li>
+        </ol>
+        <h3>How to play:</h3>
+        <ol>
+            <li>- Create an account</li>
+            <li>- If you're one of those pedantic types, then customise your profile</li>
+            <li>- Click on quiz. Select your category and away you go</li>
+        </ol>
+        <p>
+            Yes you read, it really is that simple. This is a pub quiz. You want to get going and not have to explain stuff to that slow mate of yours (you know the one....) <br>
+            Grab a drink, chat to your mates. Have fun!
+        </p>
         <hr/>
         {% if current_user.is_authenticated %}
         <div class = "row justify-content-center">

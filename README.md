@@ -2,13 +2,13 @@
 
 ## Collaborators: 
 - Kieren Underwood (21315543)
-- Fraser Gilbert 
-- Luke Govus
+- Fraser Gilbert (22609294) 
+- Luke Govus (22482138)
 - Sam Thornbury (22232705)
 
 ## Assignment details
 
-### Overview
+### Design
 
 The web application should be styled to be interesting and engaging for a user in the selected context. It should offer several views including:
 

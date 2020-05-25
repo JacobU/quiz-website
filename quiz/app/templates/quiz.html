@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
     {% block content %}
-
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/styles.css') }}">
     <div class="question-pad">
         <div class="question-number" id="question-number">1</div>
 
@@ -53,7 +53,14 @@
             // document.getElementById("count").innerHTML = parseInt(window.answersCorrect);
         }
 
-        function mark(index, marksDiv) {
+        function createButton(context) {
+            var button = document.createElement("input");
+            button.type = "button";
+            button.value = "Choose Another Quiz";
+            button.onclick = function () {
+                window.location = "{{ url_for('category') }}";
+            }
+            context.appendChild(button);
         }
 
         function displayMarks() {
@@ -82,6 +89,8 @@
                 marksDiv.appendChild(node);        
             }
             document.getElementById("finalScore").innerHTML = "Score: " + window.answersCorrect + "/10";
+            createButton(marksDiv);
+            sendResults();
         }
 
         $(function(){
@@ -96,11 +105,33 @@
                 }
                 if(currentQuestion == 10) {
                     displayMarks();
+                } else {
+                    nextQuestion();
                 }
-                nextQuestion();
             });
         }); 
         
+        function sendResults() {
+                var results = new Object();
+                results.score = window.answersCorrect;
+                results.username = "{{ username }}";
+
+                console.log(results);
+                $.ajax({
+                    type: "POST",
+                    url: "{{ url_for('quiz') }}",
+                    contentType: "application/json",
+                    data: results,
+                    dataType: "json",
+                    success: function(response) {
+                        console.log(response);
+                    },
+                    error: function(err) {
+                        console.log(err);
+                    }
+                });
+        }
+
         function nextQuestion() {
 
             currentQuestion = parseInt(document.getElementById("question-number").innerHTML);

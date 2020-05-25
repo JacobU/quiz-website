@@ -1,7 +1,7 @@
 from flask import render_template, flash, redirect, url_for, jsonify, json, request, session
 from flask_login import current_user, login_user, logout_user, login_required
 from app import app, db
-from app.forms import LoginForm, RegisterForm, AddUserForm, EditUserForm, CategoryForm, AddQuestionSetForm, DeleteQuestionSetForm, EditProfileForm
+from app.forms import LoginForm, RegisterForm, AddUserForm, EditUserForm, CategoryForm, AddQuestionSetForm, DeleteQuestionSetForm, EditProfileForm, SearchUserForm
 from app.models import User, Question, Answer, QuestionAnswer, Quiz
 from sqlalchemy import func
 from sqlalchemy.sql import exists  
@@ -325,9 +325,11 @@ def admin_deleteset():
 def admin_viewstats():
     if (current_user.is_admin() == False):
         return "Access Denied"
-    #quiz = Quiz.query.with_entities(Quiz.category,Quiz.total_score,Quiz.attempts)
+    
     cat = db.session.query(Quiz.category,Quiz.total_score,Quiz.attempts).order_by(func.sum(Quiz.total_score)).group_by(Quiz.category)
-    return render_template("admin-stats.html", Cats=cat)
+    #questions = Question.query.all()
+    questions = Question.query.order_by(Question.category)
+    return render_template("admin-stats.html", Cats=cat, Questions = questions)
 
 
 
@@ -336,13 +338,11 @@ def admin_viewstats():
 def admin_viewuserstats():
     if (current_user.is_admin() == False):
         return "Access Denied"
-    #quiz = Quiz.query.with_entities(Quiz.category,Quiz.total_score,Quiz.attempts)
     
     usersscore = db.session.query(Quiz,User).filter(User.id == Quiz.user_id).with_entities(Quiz.category,Quiz.attempts,Quiz.total_score,User.username)
     return render_template("viewstats.html", Cats=usersscore)
 
 #quiz content
-@app.route('/category', methods = ['GET', 'POST'])
 @app.route('/category', methods = ['GET', 'POST'])
 def category():
     c = []
@@ -361,8 +361,6 @@ def category():
     if form.is_submitted():
         if result != None:
             flash(result)
-            user = User.query.filter_by(id=1)
-            # x = Question.query.order_by(func.random()).limit(10)
             x = Question.query.filter_by(category = result).order_by(func.random()).limit(10)
             q = []
             full_request = []
@@ -381,7 +379,8 @@ def category():
                 full_request.append(answers)
         
             y = {
-                "username": str(user[0].username),
+                "username": str(current_user.username),
+                "category": str(result),
                 "questions": q,
                 "answers": full_request,
                 "correct answer": correct
@@ -390,15 +389,26 @@ def category():
             return(redirect(url_for('quiz')))
         else:
             flash(result)
-            return(redirect(url_for('category')))
+            return(render_template('category.html', form=form))
         
     return(render_template('category.html', form=form))
 
-@app.route('/user/<username>')
+@app.route('/user/<username>', methods = ['GET', 'POST'])
 @login_required
 def user(username):
-    user = User.query.filter_by(username=username).first_or_404()
-    return render_template('user.html', user=user)
+    form = SearchUserForm() 
+    user = User.query.filter_by(username=username).first()
+    if form.validate_on_submit():
+        if db.session.query(exists().where(User.username == form.search.data)).scalar():
+            user = User.query.filter_by(username=form.search.data).first()
+        else:
+            flash("User not found.")
+            return render_template('user.html', user=user, form=form, stats=stats)
+    y = User.query.filter_by(username = user.username).first()
+    user_id = y.id
+    stats = db.session.query(Quiz.category,Quiz.total_score,Quiz.attempts,Quiz.user_id).filter_by(user_id = user_id)
+
+    return render_template('user.html', user=user, form=form, stats=stats)
 
 @app.route('/edit_profile', methods = ['GET', 'POST'])
 @login_required
@@ -407,20 +417,21 @@ def edit_profile():
     if form.validate_on_submit():
         if db.session.query(exists().where(User.username == form.username.data)).scalar():
            flash("Username taken!")
+           return render_template('edit_profile.html', title='Edit Profile',form=form)
         else:
-            if form.username.data == '':
+            u = form.username.data
+            bio = form.userbio.data
+            if u:
+                current_user.username = u
+                db.session.commit()
+            if bio:
                 current_user.userbio = form.userbio.data
                 db.session.commit()
-            elif form.userbio.data == '':
-                current_user.username = form.username.data
-                db.session.commit()
-            elif form.username.data == '' and form.userbio.data == '':
-                flash("No input added")
-            else:
-                current_user.username = form.username.data
-                current_user.userbio = form.userbio.data
-                db.session.commit()
+            if not u and not bio:
+                flash('No input added')
+                return redirect(url_for('user',username = current_user.username))
             flash('Changes were updated!')
+            return redirect(url_for('user', username = current_user.username))
     return render_template('edit_profile.html', title='Edit Profile',form=form)
 
 
@@ -429,26 +440,21 @@ def quiz():
     
     # Get the JSON from the server...
     # quizQuestions = request.json['questions']
-    
+    if request.method == 'POST':
+        data = request.json
+        return jsonify(data)
+
     question_set = session.get('request')
 
     questions = question_set["questions"]
     answers = question_set["answers"]
     corrAnswers = question_set["correct answer"]
-    
-    # THIS IS JUST USED TO LOAD A TEST JSON
-    # filename = os.path.join(app.static_folder, 'new.json')
-    # with open(filename) as jsonfile:
-    #     rawdata = json.load(jsonfile)
-        
-        
-    #     questions = rawdata["questions"]
-    #     answers = rawdata["answers"]
-    #     corrAnswers = rawdata["correct answers"]
+    username = question_set["username"]
 
     return render_template("quiz.html", title="Quiz",   questions=questions,
                                                         answers=answers,
-                                                        corrAnswers=corrAnswers)
+                                                        corrAnswers=corrAnswers,
+                                                        username=username)
     
 
                             

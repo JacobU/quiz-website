@@ -10,7 +10,7 @@ class User(UserMixin, db.Model):
     pword_h = db.Column(db.String(128))
     admin = db.Column(db.Boolean, default = False)
     email = db.Column(db.String(128), index = True)
-    userbio = db.Column(db.String(256))
+    userbio = db.Column(db.String(256), default = "Insert a bio to tell others about yourself!")
 
     def __repr__(self):
         return '<User {}>'.format(self.username)

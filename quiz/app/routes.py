@@ -307,12 +307,12 @@ def category():
             }
             x = json.dumps(quest)
             session['request'] = x
-            x = User.query.distinct(func.random()).limit(3)
+            x = Question.query.distinct(func.random()).limit(3)
             q = []
             qid = []
             index = 0
             for i in x:
-                q.append(str(q))
+                q.append(str(i.question))
 
             y = {
                 "questions": q

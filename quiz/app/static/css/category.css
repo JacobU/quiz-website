@@ -37,6 +37,7 @@ hr{
 #categories {
     font-size: large;
     list-style: none;
+    text-align: justify;
 }
 
 .cat-list{

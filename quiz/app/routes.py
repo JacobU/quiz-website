@@ -284,44 +284,54 @@ def admin_deleteset():
 
 #quiz content
 @app.route('/category', methods = ['GET', 'POST'])
-
 @app.route('/category', methods = ['GET', 'POST'])
 def category():
-    cat = [('Sport','Sport'), ('General','General'), ('Food','Food')]
+    c = []
+    for value in Question.query.distinct(Question.category):
+        v = (str(value.category),str(value.category))
+        if v in c:
+            continue
+        else:
+            tup = tuple(v)
+            c.append(tup)
+
     form = CategoryForm()
-    form.categories.choices = cat
+    form.categories.choices = c
     result = form.categories.data
 
     if form.is_submitted():
         if result != None:
             flash(result)
             user = User.query.filter_by(id=1)
-            q = ['1','2']
-            a = [('1','2','3','4'),('1','2','3','4')]
-            ac = ['1','4']
-            quest = {
-                "username": str(user[0].username),
-                "questions": q,
-                "answers": a,
-                "correct answers": ac
-            }
-            x = json.dumps(quest)
-            session['request'] = x
-            x = Question.query.distinct(func.random()).limit(3)
+            x = Question.query.distinct(func.random()).limit(2)
             q = []
-            qid = []
-            index = 0
+            full_request = []
+            t =[]
+            answers = []
+            correct =[]
             for i in x:
                 q.append(str(i.question))
-
+                ans = QuestionAnswer.query.filter_by(question_id = i.id)
+                answers = []
+                for j in ans:
+                    sel = Answer.query.filter_by(id = j.answer_id).all()
+                    if(j.correct == True):
+                        correct.append(sel[0].answer)
+                    answers.append(sel[0].answer)
+                full_request.append(answers)
+        
             y = {
-                "questions": q
+                "username": str(user[0].username),
+                "questions": q,
+                "answers": full_request,
+                "correct answer": correct
             }
-            return y
+            session['request'] = y
             return(redirect(url_for('quiz')))
         else:
             flash(result)
             return(redirect(url_for('category')))
+        
     return(render_template('category.html', form=form))
 
 @app.route('/user/<username>')
@@ -338,9 +348,18 @@ def edit_profile():
         if db.session.query(exists().where(User.username == form.username.data)).scalar():
            flash("Username taken!")
         else:
-            current_user.username = form.username.data
-            current_user.userbio = form.userbio.data
-            db.session.commit()
+            if form.username.data == '':
+                current_user.userbio = form.userbio.data
+                db.session.commit()
+            elif form.userbio.data == '':
+                current_user.username = form.username.data
+                db.session.commit()
+            elif form.username.data == '' and form.userbio.data == '':
+                flash("No input added")
+            else:
+                current_user.username = form.username.data
+                current_user.userbio = form.userbio.data
+                db.session.commit()
             flash('Changes were updated!')
     return render_template('edit_profile.html', title='Edit Profile',form=form)
 

@@ -52,19 +52,21 @@
 							</li>
 							{% endif %}
 						<li class="nav-item">
-							<a class="nav-link" href=#Quiz><i class="fas fa-clipboard"></i> Quizzes</a>
+							<a class="nav-link" href="{{ url_for('category') }}"><i class="fas fa-clipboard"></i> Quizzes</a>
 						</li>
-						<div class="dropdown">
-							<button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								{{ current_user.username }}
-							</button>
-							<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-						
-								<a class="dropdown-item" href="{{ url_for('user', username=current_user.username) }}"><i class="fas fa-user"></i> Profile</a>
-						
-								<a class="dropdown-item" href= "{{ url_for('signout')}}"><i class="fas fa-sign-out-alt"></i> Sign Out</a>
+						<li class="nav-item">
+							<div class="dropdown">
+								<button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									{{ current_user.username }}
+								</button>
+								<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+							
+									<a class="dropdown-item" href="{{ url_for('user', username=current_user.username) }}"><i class="fas fa-user"></i> Profile</a>
+							
+									<a class="dropdown-item" href= "{{ url_for('signout')}}"><i class="fas fa-sign-out-alt"></i> Sign Out</a>
+								</div>
 							</div>
-						</div>
+						</li>
 						
 						{% endif %}
 					</ul>
@@ -75,7 +77,7 @@
 			{% block content %} {% endblock %}
 		</div>
 		<footer class = "page-footer bg-info ml-2 mr-2">
-			<div class ="footer-copyright text-center text-white py-3">@ 2020 Copyright: (something)</div>
+			<div class ="footer-copyright text-center text-white py-3">@ 2020 Copyright: Student Numbers: (22609294, 22232705, 21315543, 22482138)</div>
 		</footer>
     </body>
 </htmL>

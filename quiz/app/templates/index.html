@@ -6,6 +6,14 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css' ) }}">
 <div class = "row justify-content-center">
     <div class = "col-lg-10 col-md-10 col-sm-12 base-bg">
+        <hr>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}  
+        {%for message in messages %}
+            <div class="alert alert-success  text-center" role="alert"> {{ message }}</div>
+        {% endfor %}
+        {% endif %}
+    {% endwith %}
         <h1>Welcome {{current_user.username}}! </h1>
         <h2>This is our project</h2>
         <hr/>

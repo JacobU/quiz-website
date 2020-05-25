@@ -25,6 +25,7 @@ def login():
             flash("Error: Invalid credentials") 
             return render_template('login.html', form=form)
         login_user(user, remember=form.remember_me.data)
+        flash("Login successful!")
         return redirect(url_for('index'))
     return render_template('login.html', form=form)
 
@@ -45,13 +46,14 @@ def register():
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        flash("Registration Completed!") #FLASH NOT WORKING?!?!?!?!?!
-        return redirect(url_for('login'))
+        flash("Registration Completed!") 
+        return redirect(url_for('index'))
     return(render_template('register.html', form=form))
 
 @app.route('/signout')
 def signout():
     logout_user()
+    flash("Logout successful!")
     return redirect(url_for('index'))
 # end user login/register content
 # Admin content
@@ -116,7 +118,6 @@ def admin_edituser():
                 flash("Error: Cannot delete the user currently signed in.")
                 return render_template("admin-edit.html", form=form)
             else:
-         
                 User.query.filter_by(username=form.old_username.data).delete()
         #begin editing record
         if old_user:
@@ -275,6 +276,47 @@ def admin_deleteset():
         return "Access Denied"
 
     form=DeleteQuestionSetForm()
+    if form.validate_on_submit():
+        #check if no input entered or both. If either case raise error
+        q_id = form.question_id.data
+        q_text = form.question_text.data
+        if not (q_id or q_text):
+            flash("Error: Please enter some input")
+            return render_template("admin-deleteset.html", form=form)
+        elif q_id and q_text:
+            flash("Error: Only one field may contain data")
+            return render_template("admin-deleteset.html", form=form)
+        
+        #find corresponding question and delete from question table. Also delete relation from Questionanswer table. If cannot find return error.
+        if q_id:
+            present = db.session.query(Question.id).filter_by(id=form.question_id.data).scalar() is not None
+            if not present:
+                flash("Error: Could not find a question corresponding to the entered ID.")
+                return render_template("admin-deleteset.html", form=form)
+            else:
+                if form.confirm.data == True:
+                    QuestionAnswer.query.filter_by(question_id=form.question_id.data).delete()
+                    Question.query.filter_by(id=form.question_id.data).delete()
+                else:
+                    flash("Error: Check confirm to delete the question")
+                    return render_template("admin-deleteset.html", form=form)
+        else:
+            present=db.session.query(Question.id).filter_by(question=form.question_text.data).scalar() is not None
+            if not present:
+                flash("Error: Could not find question.")
+                return render_template("admin-deleteset.html", form=form)
+            else:
+                if form.confirm.data == True:
+
+                    question = Question.query.filter_by(question=form.question_text.data).first()
+                    QuestionAnswer.query.filter_by(question_id=question.id).delete()
+                    Question.query.filter_by(question=form.question_text.data).delete()
+                else:
+                    flash("Error: Check confirm to delete the question")
+                    return render_template("admin-deleteset.html", form=form)
+        db.session.commit()
+        flash("Question set succesfully deleted")
+        return redirect(url_for("admin"))
     return render_template("admin-deleteset.html",form=form)
 
 

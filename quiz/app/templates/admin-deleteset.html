@@ -1,37 +1,40 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Delete a question-set from the database</h1>
-    <hr>
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}  
-        <ul style="list-style:none;"> 
-        {%for message in messages %}
-            <li style="color:red; align-self: center; font-weight: bold; "> {{ message }}</li>
-        {% endfor %}
-        </ul>
-    {% endif %}
-    {% endwith %}
-    <form action="" method = "POST" novalidate>
-        {{form.hidden_tag()}}
-        <h3>Enter a question to delete or the corresponding ID</h3>
-        <p>
-            {{form.question_text.label}} <br>
-            {{form.question_text(size=32)}}
-        </p>
-        <h4>Or</h4>
-        <p>
-            {{form.question_id.label}} <br>
-            {{form.question_id(size=32)}}
-        </p>
-        <p>
-            {{form.confirm.label}}
-            {{form.confirm()}}
-        </p>
-        <p>
-            {{form.submit()}}
-        </p>
-    </form>
-    <hr>
-    <a href="{{ url_for('admin')}} "> Back to admin portal</a>
+<div class = "row justify-content-center">
+    <div class = "col-lg-8 col-md-8 col-sm-12 base-bg">
+        <h1>Delete a question-set from the database</h1>
+       <hr>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}  
+                {%for message in messages %}
+                    <div class="alert alert-danger text-center" role="alert"> {{ message }}</div>
+                {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <form action="" method = "POST" novalidate>
+            {{form.hidden_tag()}}
+            <h3>Enter a question to delete or the corresponding ID</h3>
+            <p>
+                {{form.question_text.label}} <br>
+                {{form.question_text(size=32)}}
+            </p>
+            <h4>Or</h4>
+            <p>
+                {{form.question_id.label}} <br>
+                {{form.question_id(size=32)}}
+            </p>
+            <p>
+                {{form.confirm.label}}
+                {{form.confirm()}}
+            </p>
+            <p>
+                {{form.submit()}}
+            </p>
+        </form>
+        <hr>
+        <a href="{{ url_for('admin')}} "> Back to admin portal</a>
+    </div>
+</div>
+
 {% endblock %}

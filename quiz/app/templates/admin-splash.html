@@ -7,14 +7,12 @@
             <h3>Select an option to continue</h3>
             <hr>
 
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}  
-        <ul style="list-style:none;"> 
-        {%for message in messages %}
-            <li style="color:green ;align-self: center; font-weight: bold; "> {{ message }}</li>
-        {% endfor %}
-        </ul>
-        {% endif %}
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}  
+            {%for message in messages %}
+                <div class="alert alert-success text-center" role="alert"> {{ message }}</div>
+            {% endfor %}
+            {% endif %}
         {% endwith %}
             <div>
                 <h4>User Administration </h4>
@@ -30,7 +28,7 @@
                 <ul>
                     
                     <li> <a href="{{ url_for('admin_addset') }}">Add a question set or category</a></li>
-                    <li> <a href="#BLANK">Delete a question set or category</a></li>
+                    <li> <a href="{{ url_for('admin_deleteset') }}">Delete a question set or category</a></li>
                     <li> <a href="#BLANK">View Question Sets and Statistical information</a></li>
                 </ul>
 

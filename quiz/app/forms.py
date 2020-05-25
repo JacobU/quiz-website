@@ -57,6 +57,12 @@ class AddQuestionSetForm(FlaskForm):
     fake_ans3 = StringField("Enter in the third false answer: ", validators=[InputRequired()])
     submit=SubmitField("Submit question set")
 
+class DeleteQuestionSetForm(FlaskForm):
+        question_id = StringField("Question-ID to delete: ")
+        question_text = StringField("Enter the question to delete: ") 
+        confirm = BooleanField("Confirm delete: ")
+        submit = SubmitField("Delete question")
+    
 class EditProfileForm(FlaskForm):
     username = StringField('Username', validators= [Optional()])
     userbio = TextAreaField('About me', validators=[Length(min=0, max=140)])

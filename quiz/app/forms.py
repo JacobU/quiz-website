@@ -67,3 +67,7 @@ class EditProfileForm(FlaskForm):
     username = StringField('Username', validators= [Optional()])
     userbio = TextAreaField('About me', validators=[Length(min=0, max=140)])
     submit = SubmitField('Submit')
+
+class SearchUserForm(FlaskForm):
+    search = StringField("Search", validators=[InputRequired()])
+    submit = SubmitField('Search')

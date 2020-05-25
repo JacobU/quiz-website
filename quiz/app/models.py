@@ -73,7 +73,6 @@ class Quiz(db.Model):
     total_score = db.Column(db.Integer)
     attempts = db.Column(db.Integer)
 
-
     #unsure if this will work with id
     def __repr__(self):
         return '<Quiz {}>'.format(self.id)

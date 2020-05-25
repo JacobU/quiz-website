@@ -15,7 +15,8 @@ hr {
 }
 .base-bg{
     background-color: grey;
-    height:  100vh;
+    height:  80vh;
+    overflow: auto;
     margin-top: 2%;
     border-radius: 20px;
 }

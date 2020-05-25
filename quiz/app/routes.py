@@ -1,7 +1,7 @@
 from flask import render_template, flash, redirect, url_for, jsonify, json, request, session
 from flask_login import current_user, login_user, logout_user, login_required
 from app import app, db
-from app.forms import LoginForm, RegisterForm, AddUserForm, EditUserForm, CategoryForm, AddQuestionSetForm, DeleteQuestionSetForm, EditProfileForm
+from app.forms import LoginForm, RegisterForm, AddUserForm, EditUserForm, CategoryForm, AddQuestionSetForm, DeleteQuestionSetForm, EditProfileForm, SearchUserForm
 from app.models import User, Question, Answer, QuestionAnswer
 from sqlalchemy import func
 from sqlalchemy.sql import exists  
@@ -326,7 +326,6 @@ def admin_deleteset():
 
 #quiz content
 @app.route('/category', methods = ['GET', 'POST'])
-@app.route('/category', methods = ['GET', 'POST'])
 def category():
     c = []
     for value in Question.query.distinct(Question.category):
@@ -376,11 +375,23 @@ def category():
         
     return(render_template('category.html', form=form))
 
-@app.route('/user/<username>')
+@app.route('/user/<username>', methods = ['GET', 'POST'])
 @login_required
 def user(username):
+    form = SearchUserForm() 
     user = User.query.filter_by(username=username).first_or_404()
-    return render_template('user.html', user=user)
+    if form.validate_on_submit():
+        if db.session.query(exists().where(User.username == form.search.data)).scalar():
+            user = User.query.filter_by(username=form.search.data).first()
+        else:
+            flash("User not found.")
+    
+
+    y = User.query(username = username)
+    user_id = y[0].id
+    u = db.session.query(Quiz.category,Quiz.total_score,Quiz.attempts,Quiz.user_id).filter_by(Quiz.user_id = user_id, Quiz.category = 'General')
+
+    return render_template('user.html', user=user, form=form)
 
 @app.route('/edit_profile', methods = ['GET', 'POST'])
 @login_required
@@ -403,6 +414,7 @@ def edit_profile():
                 current_user.userbio = form.userbio.data
                 db.session.commit()
             flash('Changes were updated!')
+            return redirect(url_for('user'))
     return render_template('edit_profile.html', title='Edit Profile',form=form)
 
 

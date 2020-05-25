@@ -18,6 +18,36 @@
                     <p>{{ user.userbio }}</p>
                 </div>
             </div>
+
+            <ul>
+            {% for scores in results %}
+                <li>
+                   {{ scores.category }} : {{ scores.total_score / scores.attempts }}
+                </li>
+            {% endfor %}
+            </ul>
+
+            <div class = "row justify-content-center">
+                <div class = "col-lg-6 col-md-6 col-sm-10 col-xsm-10 about-bg">
+                    <form action= "" method="POST" class="text-center" novalidate>
+                        {{ form.hidden_tag() }}   
+                        <label class = "edit-username" >Find User</label>
+                        {{ form.search(class_= "form-control edit-username", size=32) }}
+                        {{ form.submit() }}
+                    </form>
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                {% if message=='User not found.' %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ message }}
+                                </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                </div>
+            </div>
     
             <!-- Edit options-->
             <div class = "row justify-content-center">

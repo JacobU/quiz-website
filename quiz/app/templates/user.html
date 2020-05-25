@@ -1,25 +1,30 @@
 {% extends 'base.html' %}
 {% block content %}
     <div class = "row justify-content-center">
-        <div class = "col-lg-8 col-md-8 text-center base-bg">
+        <div class = "col-lg-8 col-md-8 text-center pt-4 base-bg">
             <!-- user avatar and username-->
-            <h3><img class="mr-4" src="{{ user.avatar(128) }}" alt="avatar">Quiz Master: {{ user.username }}</h3>
+            <h3><img class="mr-4" src="{{ user.avatar(128) }}" alt="avatar">Quiz Master: <b>{{ user.username }}</b></h3>
             <hr/>
             <div class = "row justify-content-center">
                 <div class = "col-lg-6 col-md-6 col-sm-10 col-xsm-10">
                     <h5><u>About me</u></h5>
                     <!--about me-->
-                    <p>{{ user.userbio }}</p>
+                    <div class = "row justify-content-center">
+                        <div class = "col-lg-12 col-md-12 col-sm-10 col-xsm-10 bio-bg">
+                            <p class="user-bio">{{ user.userbio }}</p>
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
             <!-- stat results of the user -->
              <div class = "row justify-content-center">
-                <div class = "col-lg-3 col-md-3 col-sm-10 col-xsm-10">
+                <div class = "col-lg-3 col-md-3 col-sm-3 col-xsm-2">
                     <h5><u>User Stats</u></h5>
                     <ul>
                     {% for scores in stats%}
                         <li>
-                            <p class="stats">{{ scores.category }} : {{ scores.total_score / scores.attempts |float }}</p>
+                            <p class="user-stats">{{ scores.category }} : {{ scores.total_score / scores.attempts |float }}</p>
                         </li>
                     {% endfor %}
                     </ul>
@@ -49,7 +54,6 @@
     
             <!-- Edit options-->
             <div class = "row justify-content-center">
-                <div class ="col-lg-1"></div>
                 <div class = "col-lg-3 text-center">
                     <ul class="navbar-nav">  
                     <!-- Admin settings if user is admin-->

@@ -5,24 +5,27 @@
     <h1>General statistics</h1>
     <h3>All statistics for each category is displayed below.</h3>
     <hr>
-    <table>
-        <tr> 
-            <th>Category</th>
-            <th>Average Score</th>
-            <th>Total Attempts</th>
-        </tr>
-        <!--Loop through database table and display-->
-        {% for cat in Cats %}
-        <tr>
-            <td class="category">{{cat.category}}</td>
-            <td class="score">{{cat.total_score / cat.attempts}}</td>
-            <td class="attempts">{{cat.attempts}}</td>
-        </tr>
-        {% endfor %}
-    </table>
-    
-
-    <a href="{{ url_for('admin')}} "> Back to admin portal</a>
+        <div class = "row justify-content-center">
+            <div class = "col-lg-4 col-md-4c col-sm-5 col-xsm-5 text-center base-bg">
+                <table>
+                    <tr> 
+                        <th>Category</th>
+                        <th>Average Score</th>
+                        <th>Total Attempts</th>
+                    </tr>
+                    <!--Loop through database table and display-->
+                    {% for cat in Cats %}
+                    <tr>
+                        <td class="category">{{cat.category}}</td>
+                        <td class="score">{{cat.total_score / cat.attempts}}</td>
+                        <td class="attempts">{{cat.attempts}}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                <br>
+                <a href="{{ url_for('admin')}} "> Back to admin portal</a>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

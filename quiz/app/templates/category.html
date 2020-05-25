@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/category.css' ) }}">
     <div class = "row justify-content-center">
-        <div class = "col-lg-8 cat-form">
+        <div class = "col-lg-8 base-bg">
             <h3 class="text-center mb-4">Choose Your Category!</h3>
             <hr/>
             <form action= "" method="post" class="text-center" novalidate>
@@ -21,8 +20,8 @@
                                     {{current_user.username}}, have not chosen an option!
                                 </div>
                                 {% else %}
-                                <div class="alert alert-success" role="alert">
-                                    {{ current_user.username }} selected {{ message }}. Your quiz is about to start.
+                                <div class="alert alert-info" role="alert">
+                                    {{ current_user.username }}, you seleted {{ message }} last quiz.
                                 </div>
                                 {% endif %}
                             {% endfor %}

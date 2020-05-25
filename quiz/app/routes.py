@@ -360,8 +360,6 @@ def category():
     if form.is_submitted():
         if result != None:
             flash(result)
-            user = User.query.filter_by(id=1)
-            # x = Question.query.order_by(func.random()).limit(10)
             x = Question.query.filter_by(category = result).order_by(func.random()).limit(10)
             q = []
             full_request = []
@@ -380,7 +378,8 @@ def category():
                 full_request.append(answers)
         
             y = {
-                "username": str(user[0].username),
+                "username": str(current_user.username),
+                "category": str(result),
                 "questions": q,
                 "answers": full_request,
                 "correct answer": correct
@@ -389,7 +388,7 @@ def category():
             return(redirect(url_for('quiz')))
         else:
             flash(result)
-            return(redirect(url_for('category')))
+            return(render_template('category.html', form=form))
         
     return(render_template('category.html', form=form))
 
@@ -403,6 +402,7 @@ def user(username):
             user = User.query.filter_by(username=form.search.data).first()
         else:
             flash("User not found.")
+            return render_template('user.html', user=user, form=form, stats=stats)
     y = User.query.filter_by(username = user.username).first()
     user_id = y.id
     stats = db.session.query(Quiz.category,Quiz.total_score,Quiz.attempts,Quiz.user_id).filter_by(user_id = user_id)
@@ -416,21 +416,21 @@ def edit_profile():
     if form.validate_on_submit():
         if db.session.query(exists().where(User.username == form.username.data)).scalar():
            flash("Username taken!")
+           return render_template('edit_profile.html', title='Edit Profile',form=form)
         else:
-            if form.username.data == '':
+            u = form.username.data
+            bio = form.userbio.data
+            if u:
+                current_user.username = u
+                db.session.commit()
+            if bio:
                 current_user.userbio = form.userbio.data
                 db.session.commit()
-            elif form.userbio.data == '':
-                current_user.username = form.username.data
-                db.session.commit()
-            elif form.username.data == '' and form.userbio.data == '':
-                flash("No input added")
-            else:
-                current_user.username = form.username.data
-                current_user.userbio = form.userbio.data
-                db.session.commit()
+            if not u and not bio:
+                flash('No input added')
+                return redirect(url_for('user',username = current_user.username))
             flash('Changes were updated!')
-            return redirect(url_for('user'))
+            return redirect(url_for('user', username = current_user.username))
     return render_template('edit_profile.html', title='Edit Profile',form=form)
 
 

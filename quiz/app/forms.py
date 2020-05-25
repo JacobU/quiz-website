@@ -65,7 +65,7 @@ class DeleteQuestionSetForm(FlaskForm):
     
 class EditProfileForm(FlaskForm):
     username = StringField('Username', validators= [Optional()])
-    userbio = TextAreaField('About me', validators=[Length(min=0, max=140)])
+    userbio = TextAreaField('About me', validators=[Length(min=0, max=256, message="Bio must be less then 256 characters")])
     submit = SubmitField('Submit')
 
 class SearchUserForm(FlaskForm):

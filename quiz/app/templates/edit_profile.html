@@ -13,7 +13,7 @@
                     <label class = "edit-username" >Username</label>
                     {{ form.username(class_= "form-control edit-username", size=32) }}
                     <label class = "edit-me" >About Me</label>
-                    {{ form.about_me(class_= "form-control edit-me", cols=50, rows=4) }}
+                    {{ form.userbio(class_= "form-control edit-me", cols=50, rows=4) }}
                 </div>
             </div>
             {{ form.submit(class_= "btn btn-primary") }}
@@ -22,14 +22,15 @@
             {% if messages %}
                 {% for message in messages %}
                 <div class="form-group row justify-content-center">
-                    <div class="col-lg-4 mt-5">
-                        {% if message=="Username already taken!" %}
+                    <div class="col-lg-3 mt-5">
+                        {% if message=="Username taken!" %}
                             <div class="alert alert-danger" role="alert">
                                 {{message}}
                             </div>
                         {% else %}
                             <div class="alert alert-success" role="alert">
-                                {{message}} {{ current_user.username }}
+                                {{message}}
+                                <a href ="{{ url_for('user', username=current_user.username) }}">Back to profile</a>
                             </div>
                     </div>
                 </div>

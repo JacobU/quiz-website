@@ -1,52 +1,28 @@
 {% extends "base.html" %}
 
     {% block content %}
-    <!-- <div class="question"> -->
-        <!-- <div class="row"> -->
-            <!-- <div class="col-sm-2">
 
-                <ul class="question-index">
-                    <li>Question No.1</li>
-                    <li>Question No.2</li>
-                    <li>Question No.3</li>
-                    <li>Question No.4</li>
-                    <li>Question No.5</li>
-                    <li>Question No.6</li>
-                    <li>Question No.7</li>
-                    <li>Question No.8</li>
-                    <li>Question No.9</li>
-                    <li>Question No.10</li>
-                </ul>
+    <div class="question-pad">
+        <div class="question-number" id="question-number">1</div>
 
-            </div> -->
-            <!-- <div class="col-sm-10"> -->
-                <div class="question-pad">
-                    <div class="question-number" id="question-number">1</div>
-
-                    <div class="question-text" id="question">{{ questions[0] }}</div>
-                    <div class="options">
-                        <div class="option" id="one">{{ answers[0][0] }}</div>
-                        <div class="option" id="two">{{ answers[0][1] }}</div>
-                        <div class="option" id="three">{{ answers[0][2] }}</div>
-                        <div class="option" id="four">{{ answers[0][3] }}</div>
-                    </div>        
-                    <ol class="marks" id="marks"></ol>
-                    <div class="quiz-nav">
-                        <div class="question-text" id="finalScore"></div>
-                        <!-- <div class="question-text" id="count" style="display: inline;"></div>
-                        <div class="question-text" style="display: inline;">/10</div> -->
-                    </div> 
-                </div>
-            <!-- </div> -->
-        <!-- </div> -->
-    <!-- </div> -->
-
+        <div class="question-text" id="question">{{ questions[0] }}</div>
+        <div class="options">
+            <div class="option" id="one">{{ answers[0][0] }}</div>
+            <div class="option" id="two">{{ answers[0][1] }}</div>
+            <div class="option" id="three">{{ answers[0][2] }}</div>
+            <div class="option" id="four">{{ answers[0][3] }}</div>
+        </div>        
+        <ol class="marks" id="marks"></ol>
+        <div class="quiz-nav">
+            <div class="question-text" id="finalScore"></div>
+        </div> 
+    </div>
+    
     <script>
         window.onload = startCount();
 
         function startCount() {
             window.answersCorrect = 0;
-            // document.getElementById("count").innerHTML = parseInt(window.answersCorrect);
 
             window.recordedAnswers = [];
 
@@ -77,7 +53,14 @@
             // document.getElementById("count").innerHTML = parseInt(window.answersCorrect);
         }
 
-        function mark(index, marksDiv) {
+        function createButton(context) {
+            var button = document.createElement("input");
+            button.type = "button";
+            button.value = "Choose Another Quiz";
+            button.onclick = function () {
+                window.location = "{{ url_for('category') }}";
+            }
+            context.appendChild(button);
         }
 
         function displayMarks() {
@@ -106,6 +89,8 @@
                 marksDiv.appendChild(node);        
             }
             document.getElementById("finalScore").innerHTML = "Score: " + window.answersCorrect + "/10";
+            createButton(marksDiv);
+            sendResults();
         }
 
         $(function(){
@@ -123,6 +108,13 @@
                 }
                 nextQuestion();
             });
+
+            function sendResults() {
+                var results = '{ "score": ' + window.answersCorrect + ' }';
+                var resultsJSON = JSON.parse(results);
+                $.post("{{ url_for('quiz') }}", resultsJSON )
+            }
+
         }); 
         
         function nextQuestion() {

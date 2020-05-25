@@ -1,8 +1,13 @@
 from flask import render_template, flash, redirect, url_for, jsonify, json, request, session
 from flask_login import current_user, login_user, logout_user, login_required
 from app import app, db
+<<<<<<< HEAD
 from app.forms import LoginForm, RegisterForm, AddUserForm, EditUserForm, CategoryForm, AddQuestionSetForm, DeleteQuestionSetForm, EditProfileForm, SearchUserForm
 from app.models import User, Question, Answer, QuestionAnswer
+=======
+from app.forms import LoginForm, RegisterForm, AddUserForm, EditUserForm, CategoryForm, AddQuestionSetForm, DeleteQuestionSetForm, EditProfileForm
+from app.models import User, Question, Answer, QuestionAnswer, Quiz
+>>>>>>> origin
 from sqlalchemy import func
 from sqlalchemy.sql import exists  
 import os
@@ -320,9 +325,26 @@ def admin_deleteset():
     return render_template("admin-deleteset.html",form=form)
 
 
+@app.route('/admin/admin-stats', methods=["GET", "POST"])
+@login_required
+def admin_viewstats():
+    if (current_user.is_admin() == False):
+        return "Access Denied"
+    #quiz = Quiz.query.with_entities(Quiz.category,Quiz.total_score,Quiz.attempts)
+    cat = db.session.query(Quiz.category,Quiz.total_score,Quiz.attempts).order_by(func.sum(Quiz.total_score)).group_by(Quiz.category)
+    return render_template("admin-stats.html", Cats=cat)
 
 
 
+@app.route('/admin/viewstats', methods=["GET", "POST"])
+@login_required
+def admin_viewuserstats():
+    if (current_user.is_admin() == False):
+        return "Access Denied"
+    #quiz = Quiz.query.with_entities(Quiz.category,Quiz.total_score,Quiz.attempts)
+    
+    usersscore = db.session.query(Quiz,User).filter(User.id == Quiz.user_id).with_entities(Quiz.category,Quiz.attempts,Quiz.total_score,User.username)
+    return render_template("viewstats.html", Cats=usersscore)
 
 #quiz content
 @app.route('/category', methods = ['GET', 'POST'])
@@ -344,7 +366,8 @@ def category():
         if result != None:
             flash(result)
             user = User.query.filter_by(id=1)
-            x = Question.query.distinct(func.random()).limit(2)
+            # x = Question.query.order_by(func.random()).limit(10)
+            x = Question.query.filter_by(category = result).order_by(func.random()).limit(10)
             q = []
             full_request = []
             t =[]
@@ -423,18 +446,15 @@ def quiz():
     
     # Get the JSON from the server...
     # quizQuestions = request.json['questions']
-    
-    # question_set = session.get('request')
+    if request.method == 'POST':
+        data = request.json
+        return jsonify(data)
 
-    # THIS IS JUST USED TO LOAD A TEST JSON
-    filename = os.path.join(app.static_folder, 'new.json')
-    with open(filename) as jsonfile:
-        rawdata = json.load(jsonfile)
-        
-        
-        questions = rawdata["questions"]
-        answers = rawdata["answers"]
-        corrAnswers = rawdata["correct answers"]
+    question_set = session.get('request')
+
+    questions = question_set["questions"]
+    answers = question_set["answers"]
+    corrAnswers = question_set["correct answer"]
 
     return render_template("quiz.html", title="Quiz",   questions=questions,
                                                         answers=answers,

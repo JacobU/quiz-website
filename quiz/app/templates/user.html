@@ -1,11 +1,10 @@
 {% extends 'base.html' %}
-
 {% block content %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/user.css' ) }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/user.css')}}">
     <div class = "row justify-content-center">
-        <div class = "col-lg-8 col-md-8 user-bg">
+        <div class = "col-lg-8 col-md-8 base-bg">
             <!-- user avatar and username-->
-            <h3><img class="mr-4" src="{{ user.avatar(128) }}">Quiz Master: {{ user.username }}</h3>
+            <h3><img class="mr-4" src="{{ user.avatar(128) }}" alt="avatar">Quiz Master: {{ user.username }}</h3>
             <hr/>
             <div class = "row justify-content-center">
                 <div class = "col-lg-6 col-md-6">
@@ -14,21 +13,21 @@
             </div>
             <!--about me-->
             <div class = "row justify-content-center">
-                <div class = "col-lg-6 col-md-6 col-sm-10 col-xsm-10 about-bg">
+                <div class = "col-lg-6 col-md-6 col-sm-10 col-xsm-10">
                     <p>{{ user.userbio }}</p>
                 </div>
             </div>
-
+            <!-- stat results of the user -->
             <ul>
             {% for scores in results %}
                 <li>
-                   {{ scores.category }} : {{ scores.total_score / scores.attempts }}
+                   <p>{{ scores.category }} : {{ scores.total_score / scores.attempts }}</p>
                 </li>
             {% endfor %}
             </ul>
-
+            <!--search users-->
             <div class = "row justify-content-center">
-                <div class = "col-lg-6 col-md-6 col-sm-10 col-xsm-10 about-bg">
+                <div class = "col-lg-6 col-md-6 col-sm-10 col-xsm-10">
                     <form action= "" method="POST" class="text-center" novalidate>
                         {{ form.hidden_tag() }}   
                         <label class = "edit-username" >Find User</label>

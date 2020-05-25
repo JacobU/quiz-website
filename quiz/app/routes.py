@@ -325,9 +325,11 @@ def admin_deleteset():
 def admin_viewstats():
     if (current_user.is_admin() == False):
         return "Access Denied"
-    #quiz = Quiz.query.with_entities(Quiz.category,Quiz.total_score,Quiz.attempts)
+    
     cat = db.session.query(Quiz.category,Quiz.total_score,Quiz.attempts).order_by(func.sum(Quiz.total_score)).group_by(Quiz.category)
-    return render_template("admin-stats.html", Cats=cat)
+    #questions = Question.query.all()
+    questions = Question.query.order_by(Question.category)
+    return render_template("admin-stats.html", Cats=cat, Questions = questions)
 
 
 
@@ -336,7 +338,6 @@ def admin_viewstats():
 def admin_viewuserstats():
     if (current_user.is_admin() == False):
         return "Access Denied"
-    #quiz = Quiz.query.with_entities(Quiz.category,Quiz.total_score,Quiz.attempts)
     
     usersscore = db.session.query(Quiz,User).filter(User.id == Quiz.user_id).with_entities(Quiz.category,Quiz.attempts,Quiz.total_score,User.username)
     return render_template("viewstats.html", Cats=usersscore)

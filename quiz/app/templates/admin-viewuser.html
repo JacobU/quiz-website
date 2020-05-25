@@ -5,9 +5,9 @@
         <h1>User information</h1>
         <h3>All user information (apart from passwords) stored in database is displayed below.</h3>
         <hr>
-        <div class = "row justify-content-center">
-            <div class = "col-lg-7 col-md-7 col-sm-12 text-center">
-                <table>
+        <div class="row justify-content-center">
+            <div class="col-auto">
+              <table class="table table-responsive">
                     <tr> 
                         <th>User ID</th>
                         <th>Username</th>
@@ -27,7 +27,7 @@
             </div>
         </div>
         <br>
-        <a href="{{ url_for('admin')}}"> Back to admin portal</a>
+        <a class="navback" href="{{ url_for('admin')}}"> Back to admin portal</a>
     </div>
 </div>
 {% endblock %}

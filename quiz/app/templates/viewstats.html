@@ -5,26 +5,30 @@
     <h1>User statistics</h1>
     <h3>All statistics for each user is displayed below.</h3>
     <hr>
-    <table>
-        <tr> 
-            <th>Username</th>
-            <th>Category</th>
-            <th>Average Score</th>
-            <th>Total Attempts</th>
-        </tr>
-        <!--Loop through database table and display-->
-        {% for cat in Cats %}
-        <tr>
-            <td class="username">{{cat.username}}</td>
-            <td class="category">{{cat.category}}</td>
-            <td class="score">{{cat.total_score / cat.attempts}}</td>
-            <td class="attempts">{{cat.attempts}}</td>
-        </tr>
-        {% endfor %}
-    </table>
+    <div class="row justify-content-center">
+        <div class="col-auto">
+          <table class="table table-responsive">
+                <tr> 
+                    <th>Username</th>
+                    <th>Category</th>
+                    <th>Average Score</th>
+                    <th>Total Attempts</th>
+                </tr>
+                <!--Loop through database table and display-->
+                {% for cat in Cats %}
+                <tr>
+                    <td class="username">{{cat.username}}</td>
+                    <td class="category">{{cat.category}}</td>
+                    <td class="score">{{cat.total_score / cat.attempts}}</td>
+                    <td class="attempts">{{cat.attempts}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
     
 
-    <a href="{{ url_for('admin')}} "> Back to admin portal</a>
+    <a class="navback" href="{{ url_for('admin')}} "> Back to admin portal</a>
     </div>
 </div>
 {% endblock %}

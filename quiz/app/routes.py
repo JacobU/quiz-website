@@ -448,12 +448,12 @@ def quiz():
         # results.category = "{{ category }}";
         
         # Get user ID
-        y = User.query.filter_by(username = data.username).first()
+        y = User.query.filter_by(username = data["username"]).first()
         user_id = y.id
 
-        x = Quiz.query.filter_by(user_id=user_id, category=data.category)
-        x.recent_score = data.score
-        x.total_score += data.score
+        x = Quiz.query.filter_by(user_id=user_id, category=data["category"])
+        x.recent_score = data["score"]
+        x.total_score += data["score"]
         x.attempts += 1
         db.session.commit
 

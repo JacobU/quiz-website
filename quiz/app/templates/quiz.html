@@ -105,18 +105,33 @@
                 }
                 if(currentQuestion == 10) {
                     displayMarks();
+                } else {
+                    nextQuestion();
                 }
-                nextQuestion();
             });
-
-            function sendResults() {
-                var results = '{ "score": ' + window.answersCorrect + ' }';
-                var resultsJSON = JSON.parse(results);
-                $.post("{{ url_for('quiz') }}", resultsJSON )
-            }
-
         }); 
         
+        function sendResults() {
+                var results = new Object();
+                results.score = window.answersCorrect;
+                results.username = "{{ username }}";
+
+                console.log(results);
+                $.ajax({
+                    type: "POST",
+                    url: "{{ url_for('quiz') }}",
+                    contentType: "application/json",
+                    data: results,
+                    dataType: "json",
+                    success: function(response) {
+                        console.log(response);
+                    },
+                    error: function(err) {
+                        console.log(err);
+                    }
+                });
+        }
+
         function nextQuestion() {
 
             currentQuestion = parseInt(document.getElementById("question-number").innerHTML);

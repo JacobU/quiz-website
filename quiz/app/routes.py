@@ -449,10 +449,12 @@ def quiz():
     questions = question_set["questions"]
     answers = question_set["answers"]
     corrAnswers = question_set["correct answer"]
+    username = question_set["username"]
 
     return render_template("quiz.html", title="Quiz",   questions=questions,
                                                         answers=answers,
-                                                        corrAnswers=corrAnswers)
+                                                        corrAnswers=corrAnswers,
+                                                        username=username)
     
 
                             

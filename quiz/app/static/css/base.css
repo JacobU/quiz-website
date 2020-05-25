@@ -1,11 +1,11 @@
 .container-fluid{
-    height: 100vh;
+    height: 115vh;
     background-image: url('/static/images/quizBackground.jpg');
     background-size: cover;
     background-repeat: no-repeat;
 }
 
-h1,h2{
+h1,h2,h3,h4,h5{
     text-align: center;
     color: white
 }
@@ -13,10 +13,20 @@ h1,h2{
 hr {
     border: 1px solid white;
 }
-.index-home{
-    background-color: lightgray;
-    height: 50vh;
-    margin-top: 5%;
+.base-bg{
+    background-color: grey;
+    height:  100vh;
+    margin-top: 2%;
+    border-radius: 20px;
+}
+
+a {
+    color: white;
+    list-style: none;
+}
+
+a:hover {
+    color: white;
 }
 
 

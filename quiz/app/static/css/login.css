@@ -1,0 +1,14 @@
+h1{
+    margin-top: 5%;
+    color: white;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    text-align: center;
+ }
+
+ .login-bg{
+    background-color: grey;
+    margin-top: 5%;
+    margin-bottom: 10%;
+    height: 70vh;
+    border-radius: 10%;
+}

@@ -1,7 +1,7 @@
-from flask import render_template, flash, redirect, url_for, jsonify, json, request
+from flask import render_template, flash, redirect, url_for, jsonify, json, request, session
 from flask_login import current_user, login_user, logout_user, login_required
 from app import app, db
-from app.forms import LoginForm, RegisterForm, AddUserForm, EditUserForm, CategoryForm, AddQuestionSetForm
+from app.forms import LoginForm, RegisterForm, AddUserForm, EditUserForm, CategoryForm, AddQuestionSetForm, EditProfileForm
 from app.models import User, Question, Answer, QuestionAnswer
 from sqlalchemy import func
 from sqlalchemy.sql import exists  
@@ -269,7 +269,7 @@ def admin_addset():
     return(render_template('admin-addset.html', form=form))
 
 
-    @app.route('/category', methods = ['GET', 'POST'])
+@app.route('/category', methods = ['GET', 'POST'])
 def category():
     cat = [('Sport','Sport'), ('General','General'), ('Food','Food')]
     form = CategoryForm()
@@ -291,19 +291,22 @@ def category():
             }
             x = json.dumps(quest)
             session['request'] = x
-            
-            z = Question.query.filter_by(category = result).order_by(func.random()).limit(5)
+            x = User.query.distinct(func.random()).limit(3)
             q = []
-            for i in range(0,4):
-                q[i]
-            return q
-            x = session.query(QuestionAnswer.answer_id).filter_by(question_id = "x")
-            x.filter_by(correct = True)
+            qid = []
+            index = 0
+            for i in x:
+                q.append(str(q))
 
+            y = {
+                "questions": q
+            }
+            return y
             return(redirect(url_for('quiz')))
         else:
             flash(result)
             return(redirect(url_for('category')))
+    return(render_template('category.html', form=form))
 
 @app.route('/user/<username>')
 @login_required
@@ -317,14 +320,13 @@ def edit_profile():
     form = EditProfileForm()
     if form.validate_on_submit():
         if db.session.query(exists().where(User.username == form.username.data)).scalar():
-           flash("Username already taken!")
+           flash("Username taken!")
         else:
             current_user.username = form.username.data
-            current_user.userbio = form.about_me.data
+            current_user.userbio = form.userbio.data
             db.session.commit()
-            flash('Changed username to: ')
-    return render_template('edit_profile.html', title='Edit Profile',
-                           form=form)
+            flash('Changes were updated!')
+    return render_template('edit_profile.html', title='Edit Profile',form=form)
 
 
 @app.route('/quiz', methods=['GET', 'POST'])

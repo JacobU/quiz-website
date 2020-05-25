@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, RadioField, TextAreaField
-from wtforms.validators import InputRequired, EqualTo, Email, Length
+from wtforms.validators import InputRequired, EqualTo, Email, Length, Optional
 from app.models import User, Question
 
 class LoginForm(FlaskForm):
@@ -58,6 +58,6 @@ class AddQuestionSetForm(FlaskForm):
     submit=SubmitField("Submit question set")
 
 class EditProfileForm(FlaskForm):
-    username = StringField('Username', validators=[InputRequired()])
-    about_me = TextAreaField('About me', validators=[Length(min=0, max=140)])
+    username = StringField('Username', validators= [Optional()])
+    userbio = TextAreaField('About me', validators=[Length(min=0, max=140)])
     submit = SubmitField('Submit')

@@ -1,0 +1,13 @@
+h1,h2{
+    text-align: center;
+    color: white
+}
+
+hr {
+    border: 1px solid white;
+}
+.index-home{
+    background-color: grey;
+    height: 50vh;
+    margin-top: 5%;
+}

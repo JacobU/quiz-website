@@ -3,8 +3,9 @@
 
 
 {% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css' ) }}">
 <div class = "row justify-content-center">
-    <div class = "col-lg-10 index-home">
+    <div class = "col-lg-10 col-md-10 col-sm-12 base-bg">
         <h1>Welcome {{current_user.username}}! </h1>
         <h2>This is our project</h2>
         <hr/>

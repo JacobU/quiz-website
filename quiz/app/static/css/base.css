@@ -30,6 +30,20 @@ a:hover {
     color: white;
 }
 
+.stats {
+    color:white
+}
+
+li {
+    text-decoration: none;
+    list-style: none;
+    text-align: center;
+}
+
+.stat-list {
+    align-content: center;
+}
+
 
 
 

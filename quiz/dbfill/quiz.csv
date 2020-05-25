@@ -1,9 +1,9 @@
 1,1,"General",8,64,8
 2,1,"Sport",8,64,8
 3,1,"Science",8,64,8
-4,2,"General",8,64,8
-5,2,"Sport",8,64,8
-6,2,"Science",8,64,8
+4,2,"General",2,16,8
+5,2,"Sport",2,16,8
+6,2,"Science",2,16,8
 7,3,"General",8,64,8
 8,3,"Sport",8,64,8
 9,3,"Science",8,64,8

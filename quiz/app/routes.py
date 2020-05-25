@@ -397,19 +397,17 @@ def category():
 @login_required
 def user(username):
     form = SearchUserForm() 
-    user = User.query.filter_by(username=username).first_or_404()
+    user = User.query.filter_by(username=username).first()
     if form.validate_on_submit():
         if db.session.query(exists().where(User.username == form.search.data)).scalar():
             user = User.query.filter_by(username=form.search.data).first()
         else:
             flash("User not found.")
-    
+    y = User.query.filter_by(username = user.username).first()
+    user_id = y.id
+    stats = db.session.query(Quiz.category,Quiz.total_score,Quiz.attempts,Quiz.user_id).filter_by(user_id = user_id)
 
-    y = User.query(username = username)
-    user_id = y[0].id
-    u = db.session.query(Quiz.category,Quiz.total_score,Quiz.attempts,Quiz.user_id).filter_by(Quiz.user_id = user_id, Quiz.category = 'General')
-
-    return render_template('user.html', user=user, form=form)
+    return render_template('user.html', user=user, form=form, stats=stats)
 
 @app.route('/edit_profile', methods = ['GET', 'POST'])
 @login_required

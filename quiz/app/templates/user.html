@@ -1,38 +1,37 @@
 {% extends 'base.html' %}
 {% block content %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/user.css')}}">
     <div class = "row justify-content-center">
-        <div class = "col-lg-8 col-md-8 base-bg">
+        <div class = "col-lg-8 col-md-8 text-center base-bg">
             <!-- user avatar and username-->
             <h3><img class="mr-4" src="{{ user.avatar(128) }}" alt="avatar">Quiz Master: {{ user.username }}</h3>
             <hr/>
             <div class = "row justify-content-center">
-                <div class = "col-lg-6 col-md-6">
-                    <h5>About me:</h5>
-                </div>
-            </div>
-            <!--about me-->
-            <div class = "row justify-content-center">
                 <div class = "col-lg-6 col-md-6 col-sm-10 col-xsm-10">
+                    <h5><u>About me</u></h5>
+                    <!--about me-->
                     <p>{{ user.userbio }}</p>
                 </div>
             </div>
             <!-- stat results of the user -->
-            <ul>
-            {% for scores in results %}
-                <li>
-                   <p>{{ scores.category }} : {{ scores.total_score / scores.attempts }}</p>
-                </li>
-            {% endfor %}
-            </ul>
+             <div class = "row justify-content-center">
+                <div class = "col-lg-3 col-md-3 col-sm-10 col-xsm-10">
+                    <h5><u>User Stats</u></h5>
+                    <ul>
+                    {% for scores in stats%}
+                        <li>
+                            <p class="stats">{{ scores.category }} : {{ scores.total_score / scores.attempts |float }}</p>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            </div>
             <!--search users-->
             <div class = "row justify-content-center">
                 <div class = "col-lg-6 col-md-6 col-sm-10 col-xsm-10">
                     <form action= "" method="POST" class="text-center" novalidate>
                         {{ form.hidden_tag() }}   
-                        <label class = "edit-username" >Find User</label>
-                        {{ form.search(class_= "form-control edit-username", size=32) }}
-                        {{ form.submit() }}
+                        <h5><u>Find User</u></h5>
+                        {{ form.search(class_= "form-control edit-username", size=32) }}{{ form.submit() }}
                     </form>
                     {% with messages = get_flashed_messages() %}
                         {% if messages %}
@@ -50,7 +49,8 @@
     
             <!-- Edit options-->
             <div class = "row justify-content-center">
-                <div class = "col-lg-6">
+                <div class ="col-lg-1"></div>
+                <div class = "col-lg-3 text-center">
                     <ul class="navbar-nav">  
                     <!-- Admin settings if user is admin-->
                     {% if user.admin == True %}
